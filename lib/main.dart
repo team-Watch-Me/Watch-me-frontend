@@ -1,21 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:watchme/screen/home_screen.dart';
+import 'package:watchme/widget/bottom_bar.dart';
+class MyApp extends StatefulWidget {
+  _MyAppState createState() => _MyAppState();
+}
 
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
-
+class _MyAppState extends State<MyApp> {
+  //TabController controller;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Main Page'),
+    return MaterialApp(
+      title: 'Watch Me',
+      theme: ThemeData(
+
+        brightness: Brightness.dark,
+        primaryColor: Colors.black,
+        colorScheme: ColorScheme.dark(
+          primary: Colors.black,
+          secondary: Colors.white,
+        ),
+
       ),
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            // 첫 번째 페이지로 돌아가기
-            Navigator.pop(context);
-          },
-          child: const Text('Back to Home'),
+      home: DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              HomeScreen(),
+              Container(
+                  child: Center(
+                    child: Text('search'),
+                  )
+              ),
+              Container(
+                  child: Center(
+                    child: Text('save'),
+                  )
+              ),
+              Container(
+                  child: Center(
+                    child: Text('more'),
+                  )
+              ),
+            ],
+          ),
+          bottomNavigationBar: Bottom(),
         ),
       ),
     );
