@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
                           print('카카오계정으로 로그인 실패 $error');
                         }
                       }
-                      navigateToPage(context, HomeScreen());
+                      navigateToPage(context, MainPage());
                       // 로그인 이후 화면 전환은 필요에 따라 추가
                     },
                     child: Image.asset('assets/kakao_login_medium_wide.png'),
