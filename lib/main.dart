@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:watchme/screen/home_screen.dart';
 import 'package:watchme/widget/bottom_bar.dart';
-class MyApp extends StatefulWidget {
+class MainPage extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MainPage> {
   //TabController controller;
   @override
   Widget build(BuildContext context) {
