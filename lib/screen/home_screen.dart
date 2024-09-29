@@ -3,6 +3,7 @@ import 'package:watchme/model/model_movie.dart';
 import 'package:watchme/widget/carousel_slider.dart';
 import 'package:watchme/widget/circle_slider.dart';
 import 'package:watchme/widget/box_slider.dart';
+import 'package:watchme/widget/ott_check.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -57,10 +58,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
+
         Stack(
           children: <Widget>[
             CarouselImage(movies: movies),
-            TopBar(),
+            Column(
+              children: [
+                TopBar(),
+                OTTbar(),
+              ],
+            ),
           ],
         ),
         CircleSlider(movies: movies),
