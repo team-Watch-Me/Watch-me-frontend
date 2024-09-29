@@ -30,11 +30,14 @@ flutter:
   fonts:
     - family: CustomIcons
       fonts:
-        - asset: assets/fonts/netflix.ttf
+        - asset: assets/fonts/Customicons.ttf
   assets:
+    - assets/icons/
     - images/
     - assets/icons/iconTemp.png
     - assets/kakaoLogin.png
     - assets/kakao_login_medium_wide.png
     - assets/icons/ballon.png
+    - assets/icons/netflix_on.png
+    - assets/icons/netflix_off.png
   uses-material-design: true
