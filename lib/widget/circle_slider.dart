@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:watchme/model/model_movie.dart';
+import 'package:watchme/screen/detail_screen.dart';
 
 class CircleSlider extends StatelessWidget {
   final List<Movie> movies;
+
   CircleSlider({required this.movies});
 
   @override
@@ -17,7 +19,7 @@ class CircleSlider extends StatelessWidget {
             height: 120,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: makeCircleImages(movies),
+              children: makeCircleImages(context, movies),
             ),
           ),
         ],
@@ -26,24 +28,27 @@ class CircleSlider extends StatelessWidget {
   }
 }
 
-List<Widget> makeCircleImages(List<Movie> movies) {
+List<Widget> makeCircleImages(BuildContext context, List<Movie> movies) {
   List<Widget> results = [];
   for (var i = 0; i < movies.length; i++) {
-    results.add(
-      InkWell( //widget들이 click 가능하게 하는 거..
-        onTap: () {},
+    results.add(InkWell(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute<Null>(
+              fullscreenDialog: true,
+              builder: (BuildContext context) {
+                return DetailScreen(
+                  movie: movies[i],
+                );
+              }));
+        },
         child: Container(
-          padding: EdgeInsets.only(right:10),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: CircleAvatar(
-              backgroundImage: AssetImage('images/' + movies[i].poster),
-              radius: 48,
-            )
-          )
-        )
-      )
-    );
+            padding: EdgeInsets.only(right: 10),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: CircleAvatar(
+                  backgroundImage: AssetImage('images/' + movies[i].poster),
+                  radius: 48,
+                )))));
   }
   return results;
 }
