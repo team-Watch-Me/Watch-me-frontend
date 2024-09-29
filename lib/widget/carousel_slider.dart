@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watchme/model/model_movie.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:watchme/screen/detail_screen.dart';
 
 class CarouselImage extends StatefulWidget {
   final List<Movie> movies;
@@ -38,9 +39,6 @@ class _CarouselImageState extends State<CarouselImage> {
         CarouselSlider(
           items: images,
           options: CarouselOptions(
-            //height: 400.0,
-            //enlargeCenterPage: true,
-            //autoPlay: true,
             onPageChanged: (index, reason) {
               setState(() {
                 _currentPage = index;
@@ -107,7 +105,16 @@ class _CarouselImageState extends State<CarouselImage> {
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.info),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute<Null>(
+                          fullscreenDialog: true,
+                          builder: (BuildContext context) {
+                            return DetailScreen(
+                              movie: movies[_currentPage],
+                            );
+                          }
+                        ));
+                      },
                     ),
                     Text(
                       '정보',
