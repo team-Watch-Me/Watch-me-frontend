@@ -3,6 +3,7 @@ import 'package:watchme/model/model_movie.dart';
 import 'package:watchme/widget/carousel_slider.dart';
 import 'package:watchme/widget/circle_slider.dart';
 import 'package:watchme/widget/box_slider.dart';
+import 'package:watchme/widget/ott_check.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -52,22 +53,22 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Stack(
-          children: <Widget>[
-            CarouselImage(movies: movies),
-            TopBar(),
-          ],
-        ),
-        CircleSlider(movies: movies),
-        BoxSlider(movies: movies),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(10.0), // 원하는 패딩 값
+      child: ListView(
+        children: <Widget>[
+          TopBar(),
+          OTTbar(),
+          CarouselImage(movies: movies),
+          CircleSlider(movies: movies),
+          BoxSlider(movies: movies),
+        ],
+      ),
     );
   }
+
 }
 
 class TopBar extends StatelessWidget {

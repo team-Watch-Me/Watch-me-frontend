@@ -7,12 +7,15 @@ version: 1.0.0+1
 environment:
   sdk: ^3.5.2
 
+
+
 dependencies:
   flutter:
     sdk: flutter
   kakao_flutter_sdk: ^1.9.6 # 전체 추가
   carousel_slider: ^5.0.0
   cupertino_icons: ^1.0.8
+
 
 dev_dependencies:
   flutter_launcher_icons:
@@ -24,10 +27,17 @@ flutter_icons:
   ios: true
   image_path: "assets/icons/iconTemp.png"  # 아이콘 경로 설정
 flutter:
+  fonts:
+    - family: CustomIcons
+      fonts:
+        - asset: assets/fonts/Customicons.ttf
   assets:
+    - assets/icons/
     - images/
     - assets/icons/iconTemp.png
     - assets/kakaoLogin.png
     - assets/kakao_login_medium_wide.png
     - assets/icons/ballon.png
+    - assets/icons/netflix_on.png
+    - assets/icons/netflix_off.png
   uses-material-design: true
