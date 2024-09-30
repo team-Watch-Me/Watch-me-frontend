@@ -53,28 +53,22 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-
-        Stack(
-          children: <Widget>[
-            CarouselImage(movies: movies),
-            Column(
-              children: [
-                TopBar(),
-                OTTbar(),
-              ],
-            ),
-          ],
-        ),
-        CircleSlider(movies: movies),
-        BoxSlider(movies: movies),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(10.0), // 원하는 패딩 값
+      child: ListView(
+        children: <Widget>[
+          TopBar(),
+          OTTbar(),
+          CarouselImage(movies: movies),
+          CircleSlider(movies: movies),
+          BoxSlider(movies: movies),
+        ],
+      ),
     );
   }
+
 }
 
 class TopBar extends StatelessWidget {

@@ -60,8 +60,8 @@ class _OTTbarState extends State<OTTbar> {
           child: ClipOval(
             child: Image.asset(
               otts[i].checked ? otts[i].onimage : otts[i].offimage, // 선택 여부에 따른 이미지 변경
-              width: 45,
-              height: 45,
+              width: 40,
+              height: 40,
               fit: BoxFit.cover,
             ),
           ),
@@ -80,6 +80,7 @@ class _OTTbarState extends State<OTTbar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      //padding: const EdgeInsets.symmetric(vertical: 1.0),
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -34,7 +34,7 @@ class _CarouselImageState extends State<CarouselImage> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(5),
         ),
         CarouselSlider(
           items: images,
