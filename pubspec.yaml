@@ -15,7 +15,7 @@ dependencies:
   kakao_flutter_sdk: ^1.9.6 # 전체 추가
   carousel_slider: ^5.0.0
   cupertino_icons: ^1.0.8
-
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_launcher_icons:
