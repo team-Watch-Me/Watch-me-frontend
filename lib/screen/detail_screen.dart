@@ -28,84 +28,70 @@ class _DetailScreenState extends State<DetailScreen> {
             children: <Widget>[
               Stack(
                 children: <Widget>[
+                  // 배경 이미지
                   Container(
                     width: double.maxFinite,
                     decoration: BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage('images/' + widget.movie.poster),
-                      fit: BoxFit.cover,
-                    )),
+                      image: DecorationImage(
+                        image: NetworkImage(widget.movie.poster), // 웹 링크 이미지
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     child: ClipRect(
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                         child: Container(
                           alignment: Alignment.center,
                           color: Colors.black.withOpacity(0.1),
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(0, 45, 0, 10),
-                                  height: 300,
-                                  child: Image.asset(
-                                      'images/' + widget.movie.poster),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.fromLTRB(0, 45, 0, 10),
+                                height: 300,
+                                child: Image.network(
+                                  widget.movie.poster, // 웹 링크 이미지
+                                  fit: BoxFit.cover,
                                 ),
-                                Container(
-                                  padding: EdgeInsets.all(7),
-                                  child: Text(
-                                    '아무말',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                    ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(7),
+                                child: Text(
+                                  widget.movie.plot, // Plot 데이터 표시
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.white,
                                   ),
                                 ),
-                                Container(
-                                  padding: EdgeInsets.all(7),
-                                  child: Text(
-                                    widget.movie.title,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(7),
+                                child: Text(
+                                  widget.movie.title,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
                                   ),
                                 ),
-                                Container(
-                                  padding: EdgeInsets.all(3),
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.red,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Icon(Icons.play_arrow),
-                                        Text('재생'),
-                                      ],
-                                    ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(3),
+                                child: TextButton(
+                                  onPressed: () {},
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(Icons.play_arrow),
+                                      Text('재생'),
+                                    ],
                                   ),
                                 ),
-                                Container(
-                                  //TO DO: display plot here.
-                                  padding: EdgeInsets.all(5),
-                                  child: Text(widget.movie.toString()),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(5),
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    '출연: 김동건\n제작자:강효규',
-                                    style: TextStyle(
-                                      color: Colors.white60,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -119,6 +105,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ],
               ),
+              // 버튼 영역
               Container(
                 color: Colors.black26,
                 child: Row(
@@ -127,7 +114,11 @@ class _DetailScreenState extends State<DetailScreen> {
                     Container(
                       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          setState(() {
+                            like = !like; // 좋아요 상태 변경
+                          });
+                        },
                         child: Column(
                           children: <Widget>[
                             like ? Icon(Icons.check) : Icon(Icons.add),
@@ -147,43 +138,39 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                     Container(
                       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      child: Container(
-                        child: Column(
-                          children: <Widget>[
-                            Icon(Icons.thumb_up),
-                            Padding(
-                              padding: EdgeInsets.all(5),
+                      child: Column(
+                        children: <Widget>[
+                          Icon(Icons.thumb_up),
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                          ),
+                          Text(
+                            '평가',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.white60,
                             ),
-                            Text(
-                              '평가',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.white60,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     Container(
                       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      child: Container(
-                        child: Column(
-                          children: <Widget>[
-                            Icon(Icons.send),
-                            Padding(
-                              padding: EdgeInsets.all(5),
+                      child: Column(
+                        children: <Widget>[
+                          Icon(Icons.send),
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                          ),
+                          Text(
+                            '공유',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.white60,
                             ),
-                            Text(
-                              '공유',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.white60,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -198,5 +185,11 @@ class _DetailScreenState extends State<DetailScreen> {
 }
 
 Widget makeMenuButton() {
-  return Container();
+  return Container(
+    padding: EdgeInsets.all(10),
+    child: Text(
+      '추가 메뉴 버튼',
+      style: TextStyle(color: Colors.white),
+    ),
+  );
 }

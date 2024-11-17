@@ -13,38 +13,38 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Movie> movies = [
     Movie.fromMap({
       'title': '사랑의 불시착',
-      'keyword': '사랑/로맨스/판타지',
-      'poster': 'intern.jpeg',
+      'keyword': ['사랑', '로맨스', '판타지'], // keyword는 리스트 형태로 수정
+      'poster': 'https://example.com/images/intern.jpeg', // 웹 이미지 URL로 수정
       'like': false
     }),
     Movie.fromMap({
       'title': '사랑의 불시착',
-      'keyword': '사랑/로맨스/판타지',
-      'poster': 'intern.jpeg',
+      'keyword': ['사랑', '로맨스', '판타지'],
+      'poster': 'https://example.com/images/intern.jpeg',
       'like': false
     }),
     Movie.fromMap({
       'title': '사랑의 불시착',
-      'keyword': '사랑/로맨스/판타지',
-      'poster': 'intern.jpeg',
+      'keyword': ['사랑', '로맨스', '판타지'],
+      'poster': 'https://example.com/images/intern.jpeg',
       'like': false
     }),
     Movie.fromMap({
       'title': '사랑의 불시착',
-      'keyword': '사랑/로맨스/판타지',
-      'poster': 'intern.jpeg',
+      'keyword': ['사랑', '로맨스', '판타지'],
+      'poster': 'https://example.com/images/intern.jpeg',
       'like': false
     }),
     Movie.fromMap({
       'title': '사랑의 불시착',
-      'keyword': '사랑/로맨스/판타지',
-      'poster': 'intern.jpeg',
+      'keyword': ['사랑', '로맨스', '판타지'],
+      'poster': 'https://example.com/images/intern.jpeg',
       'like': false
     }),
     Movie.fromMap({
       'title': '사랑의 불시착',
-      'keyword': '사랑/로맨스/판타지',
-      'poster': 'intern.jpeg',
+      'keyword': ['사랑', '로맨스', '판타지'],
+      'poster': 'https://example.com/images/icpcteam.png', // 웹 이미지 URL로 수정
       'like': false
     }),
   ];
@@ -53,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -68,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }
 
 class TopBar extends StatelessWidget {
@@ -80,8 +80,7 @@ class TopBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Image.asset(
-            'images/icpcteam.png',
-            //fit: BoxFit.contain,
+            'images/icpcteam.png', // 예시 아이콘
             height: 25,
           ),
           Container(

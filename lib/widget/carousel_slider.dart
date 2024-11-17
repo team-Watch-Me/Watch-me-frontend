@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:watchme/model/model_movie.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:watchme/screen/detail_screen.dart';
+import 'package:watchme/model/model_movie.dart';
 
 class CarouselImage extends StatefulWidget {
   final List<Movie> movies;
@@ -14,7 +14,7 @@ class CarouselImage extends StatefulWidget {
 class _CarouselImageState extends State<CarouselImage> {
   List<Movie> movies = [];
   List<Widget> images = [];
-  List<String> keywords = [];
+  List<List<String>> keywords = [];
   List<bool> likes = [];
   int _currentPage = 0;
   String _currentKeyword = "";
@@ -23,10 +23,18 @@ class _CarouselImageState extends State<CarouselImage> {
   void initState() {
     super.initState();
     movies = widget.movies;
-    images = movies.map((m) => Image.asset('./images/' + m.poster)).toList();
+
+    // 이미지 경로가 웹 링크로 제공되므로 Image.network를 사용
+    images = movies.map((m) => Image.network(m.poster)).toList();
+
+    // 키워드와 좋아요 상태를 목록으로 추출
     keywords = movies.map((m) => m.keyword).toList();
     likes = movies.map((m) => m.like).toList();
-    _currentKeyword = keywords[0];
+
+    // 초기 키워드 설정
+    _currentKeyword = keywords.isNotEmpty && keywords[0].isNotEmpty
+        ? keywords[0][0]  // 첫 번째 키워드의 첫 번째 항목
+        : '';  // 비어있으면 빈 문자열
   }
 
   @override
@@ -42,7 +50,7 @@ class _CarouselImageState extends State<CarouselImage> {
             onPageChanged: (index, reason) {
               setState(() {
                 _currentPage = index;
-                _currentKeyword = keywords[_currentPage];
+                _currentKeyword = keywords[_currentPage][0]; // 현재 페이지의 첫 번째 키워드
               });
             },
           ),
@@ -63,13 +71,13 @@ class _CarouselImageState extends State<CarouselImage> {
                   children: <Widget>[
                     likes[_currentPage]
                         ? IconButton(
-                            icon: Icon(Icons.check),
-                            onPressed: () {},
-                          )
+                      icon: Icon(Icons.check),
+                      onPressed: () {},
+                    )
                         : IconButton(
-                            icon: Icon(Icons.add),
-                            onPressed: () {},
-                          ),
+                      icon: Icon(Icons.add),
+                      onPressed: () {},
+                    ),
                     Text(
                       '찜한 콘텐츠',
                       style: TextStyle(fontSize: 11),
@@ -107,12 +115,12 @@ class _CarouselImageState extends State<CarouselImage> {
                       icon: Icon(Icons.info),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute<Null>(
-                          fullscreenDialog: true,
-                          builder: (BuildContext context) {
-                            return DetailScreen(
-                              movie: movies[_currentPage],
-                            );
-                          }
+                            fullscreenDialog: true,
+                            builder: (BuildContext context) {
+                              return DetailScreen(
+                                movie: movies[_currentPage],
+                              );
+                            }
                         ));
                       },
                     ),
@@ -127,10 +135,10 @@ class _CarouselImageState extends State<CarouselImage> {
           ),
         ),
         Container(
-          child:Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: makeIndicator(likes, _currentPage),
-          )
+          ),
         ),
       ],
     );

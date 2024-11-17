@@ -10,35 +10,35 @@ class _OTTbarState extends State<OTTbar> {
   List<OTT> ottList = [
     OTT.fromMap({
       'name': 'netflix',
-      'checked': false,
+      'checked': true,
       'subscribe': false,
       'onimage': 'assets/icons/netflix_on.png',  // 선택된 상태의 이미지
       'offimage': 'assets/icons/netflix_off.png', // 선택되지 않은 상태의 이미지
     }),
     OTT.fromMap({
       'name': 'tving',
-      'checked': false,
+      'checked': true,
       'subscribe': false,
       'onimage': 'assets/icons/tiving_on.png',  // 선택된 상태의 이미지
       'offimage': 'assets/icons/tiving_off.png', // 선택되지 않은 상태의 이미지
     }),
     OTT.fromMap({
       'name': 'coupang',
-      'checked': false,
+      'checked': true,
       'subscribe': false,
       'onimage': 'assets/icons/coupang_on.png',  // 선택된 상태의 이미지
       'offimage': 'assets/icons/coupang_off.png', // 선택되지 않은 상태의 이미지
     }),
     OTT.fromMap({
       'name': 'watcha',
-      'checked': false,
+      'checked': true,
       'subscribe': false,
       'onimage': 'assets/icons/watcha_on.png',  // 선택된 상태의 이미지
       'offimage': 'assets/icons/watcha_off.png', // 선택되지 않은 상태의 이미지
     }),
     OTT.fromMap({
       'name': 'coupang',
-      'checked': false,
+      'checked': true,
       'subscribe': false,
       'onimage': 'assets/icons/wave_on.png',  // 선택된 상태의 이미지
       'offimage': 'assets/icons/wave_off.png', // 선택되지 않은 상태의 이미지
