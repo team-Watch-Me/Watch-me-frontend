@@ -10,17 +10,9 @@ import 'package:watchme/model/model_ott.dart'; // OTT 모델 임포트
 import 'package:watchme/widget/ott_check.dart'; // OTTbar 임포트
 
 import 'dart:convert';  // json 관련 처리를 위한 임포트
-import 'package:flutter/material.dart';
-import 'package:watchme/model/model_movie.dart';
-import 'package:watchme/widget/carousel_slider.dart';
-import 'package:watchme/widget/circle_slider.dart';
-import 'package:watchme/widget/box_slider.dart';
-import 'package:watchme/widget/ott_check.dart';
 
 // 일반적인 영화 데이터를 가져오는 함수 (장르와 OTT 선택 여부를 받음)
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:watchme/model/model_movie.dart';
 Future<List<Movie>> get_movies_list_from_backend({
   required String genre,
   required bool netflixSelected,
@@ -103,6 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Movie> circleMovies = [];
   List<Movie> boxMovies = [];
 
+
+
+
+  /*
   // Carousel 데이터를 가져오는 함수
   Future<void> getCarouselMoviesData() async {
     try {
@@ -118,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
         carouselMovies = fetchedMovies;
       });
     } catch (e) {
-      print("Carousel 데이터를 가져오는 데 실패했습니다: $e");
+      print("Carousel 데 이터를 가져오는 데 실패했습니다: $e");
     }
   }
 
@@ -159,13 +155,49 @@ class _HomeScreenState extends State<HomeScreen> {
       print("BoxSlider 데이터를 가져오는 데 실패했습니다: $e");
     }
   }
+*/
+
+  // 공통 함수
+  Future<void> getMoviesData({
+    required String genre, // 장르
+    required List<Movie> targetList, // 업데이트할 리스트
+  }) async {
+    try {
+      List<Movie> fetchedMovies = await get_movies_list_from_backend(
+        genre: genre,
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+      setState(() {
+        targetList.clear(); // 기존 데이터를 제거
+        targetList.addAll(fetchedMovies); // 새로운 데이터 추가
+      });
+    } catch (e) {
+      print("$genre 데이터를 가져오는 데 실패했습니다: $e");
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    getCarouselMoviesData();
-    getCircleMoviesData();
-    getBoxMoviesData();
+    getMoviesData(
+      genre: selectedGenreForCarousel,
+      targetList: carouselMovies,
+    );
+    getMoviesData(
+      genre: selectedGenreForCircle,
+      targetList: circleMovies,
+    );
+    getMoviesData(
+      genre: selectedGenreForBox,
+      targetList: boxMovies,
+    );
+    //getCarouselMoviesData();
+    //getCircleMoviesData();
+    //getBoxMoviesData();
   }
 
   @override
@@ -197,8 +229,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 wavve_selected = wavve;
               });
               //getCarouselMoviesData(); // 상태가 바뀌면 다시 쿼리 보내기
-              getCircleMoviesData();
-              getBoxMoviesData();
+              /*getMoviesData(
+                genre: selectedGenreForCarousel,
+                targetList: carouselMovies,
+              );
+              */
+              getMoviesData(
+                genre: selectedGenreForCircle,
+                targetList: circleMovies,
+              );
+              getMoviesData(
+                genre: selectedGenreForBox,
+                targetList: boxMovies,
+              );
             },
           ),
           // 각 위젯에 전달되는 데이터는 각기 다른 장르에 대한 영화 데이터입니다.
