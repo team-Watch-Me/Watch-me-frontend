@@ -134,6 +134,14 @@ class _CarouselImageState extends State<CarouselImage> {
             ],
           ),
         ),
+        // runningTime을 int로 출력하는 부분 수정
+        Container(
+          padding: EdgeInsets.all(10),
+          child: Text(
+            '상영 시간: ${movies[_currentPage].runningTime.toString()} 분',  // runningTime을 출력
+            style: TextStyle(fontSize: 12, color: Colors.black),
+          ),
+        ),
         Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
