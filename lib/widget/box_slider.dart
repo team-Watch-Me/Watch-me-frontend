@@ -46,7 +46,11 @@ List<Widget> makeBoxImages(BuildContext context, List<Movie> movies) {
           padding: EdgeInsets.only(right: 10),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Image.asset('images/' + movies[i].poster),
+            //child: Image('images/' + movies[i].poster_url),
+            //image: NetworkImage(widget.movie.poster_url), // 웹 링크 이미지
+            child: Image.network(
+              movies[i].poster_url,
+            ),
           ),
         ),
       ),

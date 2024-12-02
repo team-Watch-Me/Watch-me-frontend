@@ -25,16 +25,12 @@ class _CarouselImageState extends State<CarouselImage> {
     movies = widget.movies;
 
     // 이미지 경로가 웹 링크로 제공되므로 Image.network를 사용
-    images = movies.map((m) => Image.network(m.poster)).toList();
+    images = movies.map((m) => Image.network(m.poster_url)).toList();
 
     // 키워드와 좋아요 상태를 목록으로 추출
-    keywords = movies.map((m) => m.keyword).toList();
-    likes = movies.map((m) => m.like).toList();
 
     // 초기 키워드 설정
-    _currentKeyword = keywords.isNotEmpty && keywords[0].isNotEmpty
-        ? keywords[0][0]  // 첫 번째 키워드의 첫 번째 항목
-        : '';  // 비어있으면 빈 문자열
+    
   }
 
   @override

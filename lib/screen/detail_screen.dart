@@ -16,7 +16,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    like = widget.movie.like;
+    //like = widget.movie.like;
   }
 
   @override
@@ -33,7 +33,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     width: double.maxFinite,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(widget.movie.poster), // 웹 링크 이미지
+                        image: NetworkImage(widget.movie.poster_url), // 웹 링크 이미지
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -49,14 +49,14 @@ class _DetailScreenState extends State<DetailScreen> {
                                 padding: EdgeInsets.fromLTRB(0, 45, 0, 10),
                                 height: 300,
                                 child: Image.network(
-                                  widget.movie.poster, // 웹 링크 이미지
+                                  widget.movie.poster_url, // 웹 링크 이미지
                                   fit: BoxFit.cover,
                                 ),
                               ),
                               Container(
                                 padding: EdgeInsets.all(7),
                                 child: Text(
-                                  widget.movie.plot, // Plot 데이터 표시
+                                  widget.movie.description, // Plot 데이터 표시
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 13,
@@ -116,12 +116,12 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: InkWell(
                         onTap: () {
                           setState(() {
-                            like = !like; // 좋아요 상태 변경
+                            //like = !like; // 좋아요 상태 변경
                           });
                         },
                         child: Column(
                           children: <Widget>[
-                            like ? Icon(Icons.check) : Icon(Icons.add),
+                            //like ? Icon(Icons.check) : Icon(Icons.add),
                             Padding(
                               padding: EdgeInsets.all(5),
                             ),

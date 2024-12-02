@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:watchme/screen/home_screen.dart';
+import 'package:watchme/screen/search_screen.dart';
 import 'package:watchme/widget/bottom_bar.dart';
+
 class MainPage extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
@@ -28,11 +30,7 @@ class _MyAppState extends State<MainPage> {
             physics: NeverScrollableScrollPhysics(),
             children: <Widget>[
               HomeScreen(),
-              Container(
-                  child: Center(
-                    child: Text('search'),
-                  )
-              ),
+              SearchScreen(),
               Container(
                   child: Center(
                     child: Text('save'),
