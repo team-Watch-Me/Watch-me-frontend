@@ -5,9 +5,7 @@ import 'package:watchme/widget/circle_slider.dart';
 import 'package:watchme/widget/box_slider.dart';
 import 'package:watchme/widget/ott_check.dart';
 import 'package:http/http.dart' as http;  // http 패키지 임포트
-import 'package:flutter/material.dart';
 import 'package:watchme/model/model_ott.dart'; // OTT 모델 임포트
-import 'package:watchme/widget/ott_check.dart'; // OTTbar 임포트
 
 import 'dart:convert';  // json 관련 처리를 위한 임포트
 
@@ -82,7 +80,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool netflix_selected = true;
   bool tving_selected = true;
-  bool coupang_selected = false;
+  bool coupang_selected = true;
   bool watcha_selected = true;
   bool wavve_selected = true;
 
@@ -206,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.all(10.0),
       child: ListView(
         children: <Widget>[
-          TopBar(),
+          //TopBar(),
           OTTbar(
             // OTTbar에 상태값과 콜백 함수 전달
             netflixSelected: netflix_selected,
