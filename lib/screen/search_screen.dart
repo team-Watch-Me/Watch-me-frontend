@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;  // http 패키지 임포트
 import 'package:watchme/model/model_movie.dart';
 import 'package:watchme/widget/circle_slider.dart';
 import 'dart:convert';  // json 관련 처리를 위한 임포트
+import 'package:watchme/widget/list_slider.dart';
 
 Future<List<Movie>> get_search_list_from_backend({
   required String searchString,
@@ -265,7 +266,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Padding( // 공백
               padding: EdgeInsets.all(10),
             ),
-            CircleSlider(movies: searchedMovies),
+            ListSlider(movies: searchedMovies),
           ],
         ),
       ),
