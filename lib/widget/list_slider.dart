@@ -84,7 +84,7 @@ class ListSlider extends StatelessWidget {
                             '${movies[index].year}',
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.white, // 연도는 흰색으로 설정
+                              color: Colors.grey.shade500, // 연도는 연한 회색으로 설정
                             ),
                           ),
                         ],
