@@ -1,5 +1,3 @@
-// list_slider.dart
-
 import 'package:flutter/material.dart';
 import 'package:watchme/model/model_movie.dart';
 import 'package:watchme/screen/detail_screen.dart';  // 영화 상세 화면
@@ -30,7 +28,10 @@ class ListSlider extends StatelessWidget {
                 ));
               },
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 15),
+                padding: EdgeInsets.only(
+                  bottom: 8, // 리스트 항목 간격 줄이기
+                  top: index == 0 ? 0 : 8, // 첫 번째 항목만 위쪽 패딩 제거
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start, // 제목과 장르를 상단에 맞춤
                   children: [
@@ -49,14 +50,14 @@ class ListSlider extends StatelessWidget {
                         ),
                         child: Image.network(
                           movies[index].poster_url, // 수정된 부분: poster_url 사용
-                          height: 180, // 영화 포스터 높이
-                          width: 120, // 영화 포스터 너비
+                          height: 120, // 영화 포스터 높이 더 줄이기
+                          width: 80,   // 영화 포스터 너비 더 줄이기
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                    SizedBox(width: 15),
-                    // 영화 제목과 장르
+                    SizedBox(width: 12),  // 포스터와 제목 사이의 간격을 조금 더 줄임
+                    // 영화 제목, 장르, Release Year
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,12 +71,20 @@ class ListSlider extends StatelessWidget {
                             ),
                             overflow: TextOverflow.ellipsis, // 제목이 길면 생략
                           ),
-                          SizedBox(height: 5),
+                          SizedBox(height: 4),  // 제목과 장르 사이 간격 줄임
                           Text(
                             movies[index].genre,
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey, // 장르는 여전히 회색으로 설정
+                            ),
+                          ),
+                          SizedBox(height: 4),  // 장르와 연도 사이 간격 줄임
+                          Text(
+                            '${movies[index].year}',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white, // 연도는 흰색으로 설정
                             ),
                           ),
                         ],

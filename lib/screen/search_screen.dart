@@ -263,9 +263,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-            Padding( // 공백
-              padding: EdgeInsets.all(10),
-            ),
             ListSlider(movies: searchedMovies),
           ],
         ),
