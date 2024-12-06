@@ -6,7 +6,6 @@ import 'package:watchme/widget/box_slider.dart';
 import 'package:watchme/widget/ott_check.dart';
 import 'package:http/http.dart' as http;  // http 패키지 임포트
 import 'package:watchme/model/model_ott.dart'; // OTT 모델 임포트
-
 import 'dart:convert';  // json 관련 처리를 위한 임포트
 
 // 일반적인 영화 데이터를 가져오는 함수 (장르와 OTT 선택 여부를 받음)
@@ -39,14 +38,15 @@ Future<List<Movie>> get_movies_list_from_backend({
       body: json.encode(body), // 데이터를 JSON 형식으로 직렬화
     );
 
-    print('POST 요청 URL: ${apiUrl.toString()}');  // 요청 URL 출력
-    print('보낸 데이터: ${json.encode(body)}'); // 보낸 데이터 출력
+    print('POST 요청 URL: ${apiUrl.toString()}');
+    print('보낸 데이터: ${json.encode(body)}');
 
-    // 응답 본문 출력
-    print('응답 본문: ${response.body}');  // 받은 응답을 출력합니다.
+    final decodedBody = utf8.decode(response.bodyBytes);
+    print('응답 본문 (디코딩 후): $decodedBody');
+    print('응답 헤더: ${response.headers}');
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> jsonData = json.decode(response.body);
+      final Map<String, dynamic> jsonData = json.decode(decodedBody);
       final List<dynamic> moviesList = jsonData['movies'];
 
       print('영화 리스트: $moviesList');
@@ -95,65 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-
-  /*
-  // Carousel 데이터를 가져오는 함수
-  Future<void> getCarouselMoviesData() async {
-    try {
-      List<Movie> fetchedMovies = await get_movies_list_from_backend(
-        genre: selectedGenreForCarousel,
-        netflixSelected: netflix_selected,
-        tvingSelected: tving_selected,
-        coupangSelected: coupang_selected,
-        watchaSelected: watcha_selected,
-        wavveSelected: wavve_selected,
-      );
-      setState(() {
-        carouselMovies = fetchedMovies;
-      });
-    } catch (e) {
-      print("Carousel 데 이터를 가져오는 데 실패했습니다: $e");
-    }
-  }
-
-  // CircleSlider 데이터를 가져오는 함수
-  Future<void> getCircleMoviesData() async {
-    try {
-      List<Movie> fetchedMovies = await get_movies_list_from_backend(
-        genre: selectedGenreForCircle,
-        netflixSelected: netflix_selected,
-        tvingSelected: tving_selected,
-        coupangSelected: coupang_selected,
-        watchaSelected: watcha_selected,
-        wavveSelected: wavve_selected,
-      );
-      setState(() {
-        circleMovies = fetchedMovies;
-      });
-    } catch (e) {
-      print("CircleSlider 데이터를 가져오는 데 실패했습니다: $e");
-    }
-  }
-
-  // BoxSlider 데이터를 가져오는 함수
-  Future<void> getBoxMoviesData() async {
-    try {
-      List<Movie> fetchedMovies = await get_movies_list_from_backend(
-        genre: selectedGenreForBox,
-        netflixSelected: netflix_selected,
-        tvingSelected: tving_selected,
-        coupangSelected: coupang_selected,
-        watchaSelected: watcha_selected,
-        wavveSelected: wavve_selected,
-      );
-      setState(() {
-        boxMovies = fetchedMovies;
-      });
-    } catch (e) {
-      print("BoxSlider 데이터를 가져오는 데 실패했습니다: $e");
-    }
-  }
-*/
 
   // 공통 함수
   Future<void> getMoviesData({

@@ -25,7 +25,7 @@ class _CarouselImageState extends State<CarouselImage> {
     movies = widget.movies;
 
     // 이미지 경로가 웹 링크로 제공되므로 Image.network를 사용
-    images = movies.map((m) => Image.network(m.poster_url)).toList();
+    images = movies.map((m) => Image.network(m.posterURL)).toList();
 
     // 키워드와 좋아요 상태를 목록으로 추출
 
