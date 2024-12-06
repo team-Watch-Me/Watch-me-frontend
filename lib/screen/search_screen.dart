@@ -263,7 +263,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-            ListSlider(movies: searchedMovies),
+            Expanded(
+              child: ListSlider(movies: searchedMovies),
+            ),
           ],
         ),
       ),
