@@ -87,12 +87,14 @@ class _HomeScreenState extends State<HomeScreen> {
   String actionGenre = '액션';
   String romanceGenre = '로맨스';
   String fantasyGenre = '판타지';
+  String comedyGenre = '코미디';
 
   // 각기 다른 장르에 대해 각각의 영화 데이터를 저장할 변수
   List<Movie> hororMovies = [];
   List<Movie> actionMovies = [];
   List<Movie> romanceMovies = [];
   List<Movie> fantasyMovies = [];
+  List<Movie> comedyMovies = [];
 
 
   Future<void> getMoviesData({
@@ -121,9 +123,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  bool isLoading = true;
 
   Future<void> updateMoviesData() async {
     try {
+      setState(() {
+        isLoading = true;
+      });
       List<Movie> fetchedHororMovies = await get_movies_list_from_backend(
         genre: hororGenre,
         netflixSelected: netflix_selected,
@@ -160,19 +166,33 @@ class _HomeScreenState extends State<HomeScreen> {
         wavveSelected: wavve_selected,
       );
 
+      List<Movie> fetchedComedyMovies = await get_movies_list_from_backend(
+        genre: comedyGenre,
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+
       setState(() {
         hororMovies = fetchedHororMovies;
         actionMovies = fetchedActionMovies;
         romanceMovies = fetchedRomanceMovies;
         fantasyMovies = fetchedFantasyMovies;
+        comedyMovies = fetchedComedyMovies;
+        isLoading = false;
       });
     } catch (e) {
       print("데이터 업데이트 중 오류 발생: $e");
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
 
-  bool isLoading = true;
+
 
   @override
   void initState() {
@@ -222,6 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BoxSlider(movies: romanceMovies, sliderTitle: romanceGenre),
           BoxSlider(movies: actionMovies, sliderTitle: actionGenre),
           BoxSlider(movies: fantasyMovies, sliderTitle: fantasyGenre),
+          BoxSlider(movies: comedyMovies, sliderTitle: comedyGenre),
         ],
       ),
     );
