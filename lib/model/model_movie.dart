@@ -43,6 +43,7 @@ class Movie {
       print('release_date: ${json['release_date']}');
       print('running_time: ${json['running_time']}');
       print('like: ${json['like']}');
+      print('ottProvider: ${json['ott_provider']}');
 
       return Movie(
         title: title.isNotEmpty ? title : '제목 없음',  // 기본값 설정

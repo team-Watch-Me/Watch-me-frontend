@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:watchme/model/model_movie.dart';
-import 'package:watchme/widget/carousel_slider.dart';
 import 'package:watchme/widget/circle_slider.dart';
 import 'package:watchme/widget/box_slider.dart';
 import 'package:watchme/widget/ott_check.dart';
 import 'package:http/http.dart' as http;  // http 패키지 임포트
 import 'package:watchme/model/model_ott.dart'; // OTT 모델 임포트
 import 'dart:convert';  // json 관련 처리를 위한 임포트
-
-// 일반적인 영화 데이터를 가져오는 함수 (장르와 OTT 선택 여부를 받음)
 import 'package:http/http.dart' as http;
 
 import '../widget/list_slider.dart';
@@ -86,14 +83,14 @@ class _HomeScreenState extends State<HomeScreen> {
   bool watcha_selected = true;
   bool wavve_selected = true;
 
-  String selectedGenreForCarousel = '공포';  // Carousel에 사용할 장르
-  String selectedGenreForCircle = '액션';   // CircleSlider에 사용할 장르
-  String selectedGenreForBox = '로맨스';    // BoxSlider에 사용할 장르
+  String hororGenre = '공포';
+  String actionGenre = '액션';
+  String romanceGenre = '로맨스';
 
   // 각기 다른 장르에 대해 각각의 영화 데이터를 저장할 변수
-  List<Movie> carouselMovies = [];
-  List<Movie> circleMovies = [];
-  List<Movie> boxMovies = [];
+  List<Movie> hororMovies = [];
+  List<Movie> actionMovies = [];
+  List<Movie> romanceMovies = [];
 
 
 
@@ -121,24 +118,50 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+
+  Future<void> updateMoviesData() async {
+    try {
+      List<Movie> fetchedHororMovies = await get_movies_list_from_backend(
+        genre: hororGenre,
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+
+      List<Movie> fetchedActionMovies = await get_movies_list_from_backend(
+        genre: actionGenre,
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+
+      List<Movie> fetchedRomanceMovies = await get_movies_list_from_backend(
+        genre: romanceGenre,
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+
+      setState(() {
+        hororMovies = fetchedHororMovies;
+        actionMovies = fetchedActionMovies;
+        romanceMovies = fetchedRomanceMovies;
+      });
+    } catch (e) {
+      print("데이터 업데이트 중 오류 발생: $e");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    getMoviesData(
-      genre: selectedGenreForCarousel,
-      targetList: carouselMovies,
-    );
-    getMoviesData(
-      genre: selectedGenreForCircle,
-      targetList: circleMovies,
-    );
-    getMoviesData(
-      genre: selectedGenreForBox,
-      targetList: boxMovies,
-    );
-    //getCarouselMoviesData();
-    //getCircleMoviesData();
-    //getBoxMoviesData();
+    updateMoviesData();
   }
 
   @override
@@ -170,26 +193,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 wavve_selected = wavve;
               });
               //getCarouselMoviesData(); // 상태가 바뀌면 다시 쿼리 보내기
-              /*getMoviesData(
-                genre: selectedGenreForCarousel,
-                targetList: carouselMovies,
-              );
-              */
-              getMoviesData(
-                genre: selectedGenreForCircle,
-                targetList: circleMovies,
-              );
-              getMoviesData(
-                genre: selectedGenreForBox,
-                targetList: boxMovies,
-              );
+              updateMoviesData();
             },
           ),
           // 각 위젯에 전달되는 데이터는 각기 다른 장르에 대한 영화 데이터입니다.
           //CarouselImage(movies: carouselMovies),
-          ListSlider(movies: circleMovies),
-          CircleSlider(movies: circleMovies, sliderTitle: 'king'),
-          BoxSlider(movies: boxMovies, sliderTitle: '장르'),
+          //ListSlider(movies: hororMovies),
+          CircleSlider(movies: hororMovies, sliderTitle: hororGenre),
+          CircleSlider(movies: romanceMovies, sliderTitle: romanceGenre),
+          BoxSlider(movies: actionMovies, sliderTitle: actionGenre),
         ],
       ),
     );
