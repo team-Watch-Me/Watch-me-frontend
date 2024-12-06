@@ -4,8 +4,12 @@ import 'package:watchme/screen/detail_screen.dart';
 
 class CircleSlider extends StatelessWidget {
   final List<Movie> movies;
+  final String sliderTitle;
 
-  CircleSlider({required this.movies});
+  CircleSlider({
+    required this.movies,
+    required this.sliderTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,7 @@ class CircleSlider extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('미리보기'),
+          Text(sliderTitle),
           Container(
             height: 120,
             child: ListView(
@@ -47,7 +51,7 @@ List<Widget> makeCircleImages(BuildContext context, List<Movie> movies) {
                 alignment: Alignment.centerLeft,
                 child: CircleAvatar(
                   //backgroundImage: AssetImage('images/' + movies[i].poster_url),
-                  backgroundImage: NetworkImage(movies[i].poster_url), // 웹 링크 이미지
+                  backgroundImage: NetworkImage(movies[i].posterURL), // 웹 링크 이미지
                   //backgroundImage: AssetImage('images/' + movies[i].poster_url),
                   radius: 48,
                 )))));

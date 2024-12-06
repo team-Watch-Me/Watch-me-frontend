@@ -4,8 +4,12 @@ import 'package:watchme/screen/detail_screen.dart';
 
 class BoxSlider extends StatelessWidget {
   final List<Movie> movies;
+  final String sliderTitle;
 
-  BoxSlider({required this.movies});
+  BoxSlider({
+    required this.movies,
+    required this.sliderTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,7 @@ class BoxSlider extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('지금 뜨는 콘텐츠'),
+          Text(sliderTitle),
           Container(
               height: 120,
               child: ListView(
@@ -49,7 +53,7 @@ List<Widget> makeBoxImages(BuildContext context, List<Movie> movies) {
             //child: Image('images/' + movies[i].poster_url),
             //image: NetworkImage(widget.movie.poster_url), // 웹 링크 이미지
             child: Image.network(
-              movies[i].poster_url,
+              movies[i].posterURL,
             ),
           ),
         ),

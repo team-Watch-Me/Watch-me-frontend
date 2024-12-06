@@ -1,12 +1,17 @@
+import 'package:tuple/tuple.dart';
+
 class Movie {
   final String title;
-  final String genre;
+  final List<String> genre;
   final String ageRating;
-  final String country;
+  final List<String> country;
   final String year;
   final int runningTime;  // int로 변경
   final String description;
-  final String poster_url;
+  final String posterURL;
+  final List<String> actor;
+  final List<String> staff;
+  final List<Tuple2<String, String>> ottProvider;
 
   Movie({
     required this.title,
@@ -16,7 +21,10 @@ class Movie {
     required this.country,
     required this.runningTime,  // int로 전달
     required this.year,
-    required this.poster_url,
+    required this.posterURL,
+    required this.actor,
+    required this.staff,
+    required this.ottProvider,
   });
 
 
@@ -35,16 +43,25 @@ class Movie {
       print('release_date: ${json['release_date']}');
       print('running_time: ${json['running_time']}');
       print('like: ${json['like']}');
+      print('ottProvider: ${json['ott_provider']}');
 
       return Movie(
         title: title.isNotEmpty ? title : '제목 없음',  // 기본값 설정
         description: json['description'] ?? '설명 없음',  // 기본값 설정
-        genre: json['genre'] ?? '장르 정보 없음',  // 기본값 설정
+        genre: List<String>.from(json['genre'] ?? []), //
         ageRating: json['age_rating'] ?? '연령 정보 없음',  // 기본값 설정
-        country: json['country'] ?? '국가 정보 없음',  // 기본값 설정
+        country: List<String>.from(json['country'] ?? []), // 리스트 변환 추가
         year: json['year'] ?? '발매일 정보 없음',  // 기본값 설정
-        runningTime: (json['running_time'] is int) ? json['running_time'] : 120,  // 기본값 설정 (더미 값: 120)
-        poster_url: json['poster_url'] ?? '포스터 없음'
+        runningTime: (json['running_time'] is int) ? json['running_time'] : 120,  // 기본값 설정 (더미 값: 120
+        posterURL: json['poster_url'] ?? '포스터 없음',
+        ottProvider: (json['ott_provider'] as List<dynamic>?)
+            ?.map((item) => Tuple2<String, String>(
+            item[0] as String? ?? '', item[1] as String? ?? ''))
+            .toList() ??
+            [], // Tuple 변환
+        actor: List<String>.from(json['actor'] ?? []), //
+        staff: List<String>.from(json['staff'] ?? []), //
+
       );
     } catch (e) {
       print('Movie.fromJson 변환 오류: $e');
@@ -58,18 +75,25 @@ class Movie {
     return Movie(
       title: map['title'] ?? '',
       description: map['description'] ?? '', // 백엔드의 `description` 필드로 매핑
-      genre: map['genre'] ?? '',
+      genre: List<String>.from(map['genre'] ?? []),
       ageRating: map['age_rating'] ?? '',
-      country: map['country'] ?? '',
+      country: List<String>.from(map['country'] ?? []), // 리스트 변환 추가
       year: map['year'] ?? '',
       runningTime: map['running_time'] ?? 0,
-      poster_url: '', // 포스터 URL이 없으므로 빈 문자열로 처리
+      posterURL: '', // 포스터 URL이 없으므로 빈 문자열로 처리
+      ottProvider: (map['ott_provider'] as List<dynamic>?)
+          ?.map((item) => Tuple2<String, String>(
+          item[0] as String? ?? '', item[1] as String? ?? ''))
+          .toList() ??
+          [],
+      actor: List<String>.from(map['acort'] ?? []),
+      staff: List<String>.from(map['staff'] ?? []),
     );
   }
 
   @override
   String toString() {
-    return 'Movie(title: $title, poster_url: $poster_url, description: $description, genre: $genre, year: $year, runningTime: $runningTime)';
+    return 'Movie(title: $title, poster_url: $posterURL, description: $description, genre: $genre, year: $year, runningTime: $runningTime)';
   }
 
 

@@ -37,11 +37,11 @@ Future<List<Movie>> get_search_list_from_backend({
     print('POST 요청 URL: ${apiUrl.toString()}');  // 요청 URL 출력
     print('보낸 데이터: ${json.encode(body)}'); // 보낸 데이터 출력
 
-    // 응답 본문 출력
-    print('응답 본문: ${response.body}');  // 받은 응답을 출력합니다.
+    final decodedBody = utf8.decode(response.bodyBytes); // UTF-8 강제 디코딩
+    print('응답 본문 (디코딩 후): $decodedBody');  // 디코딩된 응답 출력
     print('응답 헤더: ${response.headers}');
     if (response.statusCode == 200) {
-      final Map<String, dynamic> jsonData = json.decode(response.body);
+      final Map<String, dynamic> jsonData = json.decode(decodedBody);
       final List<dynamic> moviesList = jsonData['movies'];
 
       print('영화 리스트: $moviesList');
@@ -185,7 +185,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             Container(
               color: Colors.transparent,
-              padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
+              padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -263,7 +263,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-            ListSlider(movies: searchedMovies),
+            Expanded(
+              child: ListSlider(movies: searchedMovies),
+            ),
           ],
         ),
       ),

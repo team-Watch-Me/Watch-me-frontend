@@ -11,7 +11,7 @@ class ListSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      //padding: EdgeInsets.all(10),
       child: Container(
         // 화면 꽉 차게 하도록 조정
         height: MediaQuery.of(context).size.height * 0.6, // 화면의 60% 크기
@@ -49,7 +49,7 @@ class ListSlider extends StatelessWidget {
                           ],
                         ),
                         child: Image.network(
-                          movies[index].poster_url, // 수정된 부분: poster_url 사용
+                          movies[index].posterURL, // 수정된 부분: poster_url 사용
                           height: 120, // 영화 포스터 높이 더 줄이기
                           width: 80,   // 영화 포스터 너비 더 줄이기
                           fit: BoxFit.cover,
@@ -73,7 +73,7 @@ class ListSlider extends StatelessWidget {
                           ),
                           SizedBox(height: 4),  // 제목과 장르 사이 간격 줄임
                           Text(
-                            movies[index].genre,
+                            movies[index].genre.join(', '),
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey, // 장르는 여전히 회색으로 설정

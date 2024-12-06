@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:watchme/model/model_movie.dart';
-import 'package:watchme/widget/carousel_slider.dart';
 import 'package:watchme/widget/circle_slider.dart';
 import 'package:watchme/widget/box_slider.dart';
 import 'package:watchme/widget/ott_check.dart';
 import 'package:http/http.dart' as http;  // http 패키지 임포트
 import 'package:watchme/model/model_ott.dart'; // OTT 모델 임포트
-
 import 'dart:convert';  // json 관련 처리를 위한 임포트
-
-// 일반적인 영화 데이터를 가져오는 함수 (장르와 OTT 선택 여부를 받음)
 import 'package:http/http.dart' as http;
+
+import '../widget/list_slider.dart';
 Future<List<Movie>> get_movies_list_from_backend({
   required String genre,
   required bool netflixSelected,
@@ -39,14 +37,15 @@ Future<List<Movie>> get_movies_list_from_backend({
       body: json.encode(body), // 데이터를 JSON 형식으로 직렬화
     );
 
-    print('POST 요청 URL: ${apiUrl.toString()}');  // 요청 URL 출력
-    print('보낸 데이터: ${json.encode(body)}'); // 보낸 데이터 출력
+    print('POST 요청 URL: ${apiUrl.toString()}');
+    print('보낸 데이터: ${json.encode(body)}');
 
-    // 응답 본문 출력
-    print('응답 본문: ${response.body}');  // 받은 응답을 출력합니다.
+    final decodedBody = utf8.decode(response.bodyBytes);
+    print('응답 본문 (디코딩 후): $decodedBody');
+    print('응답 헤더: ${response.headers}');
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> jsonData = json.decode(response.body);
+      final Map<String, dynamic> jsonData = json.decode(decodedBody);
       final List<dynamic> moviesList = jsonData['movies'];
 
       print('영화 리스트: $moviesList');
@@ -84,81 +83,23 @@ class _HomeScreenState extends State<HomeScreen> {
   bool watcha_selected = true;
   bool wavve_selected = true;
 
-  String selectedGenreForCarousel = '공포';  // Carousel에 사용할 장르
-  String selectedGenreForCircle = '액션';   // CircleSlider에 사용할 장르
-  String selectedGenreForBox = '로맨스';    // BoxSlider에 사용할 장르
+  String hororGenre = '공포';
+  String actionGenre = '액션';
+  String romanceGenre = '로맨스';
+  String fantasyGenre = '판타지';
+  String comedyGenre = '코미디';
 
   // 각기 다른 장르에 대해 각각의 영화 데이터를 저장할 변수
-  List<Movie> carouselMovies = [];
-  List<Movie> circleMovies = [];
-  List<Movie> boxMovies = [];
+  List<Movie> hororMovies = [];
+  List<Movie> actionMovies = [];
+  List<Movie> romanceMovies = [];
+  List<Movie> fantasyMovies = [];
+  List<Movie> comedyMovies = [];
 
 
-
-
-  /*
-  // Carousel 데이터를 가져오는 함수
-  Future<void> getCarouselMoviesData() async {
-    try {
-      List<Movie> fetchedMovies = await get_movies_list_from_backend(
-        genre: selectedGenreForCarousel,
-        netflixSelected: netflix_selected,
-        tvingSelected: tving_selected,
-        coupangSelected: coupang_selected,
-        watchaSelected: watcha_selected,
-        wavveSelected: wavve_selected,
-      );
-      setState(() {
-        carouselMovies = fetchedMovies;
-      });
-    } catch (e) {
-      print("Carousel 데 이터를 가져오는 데 실패했습니다: $e");
-    }
-  }
-
-  // CircleSlider 데이터를 가져오는 함수
-  Future<void> getCircleMoviesData() async {
-    try {
-      List<Movie> fetchedMovies = await get_movies_list_from_backend(
-        genre: selectedGenreForCircle,
-        netflixSelected: netflix_selected,
-        tvingSelected: tving_selected,
-        coupangSelected: coupang_selected,
-        watchaSelected: watcha_selected,
-        wavveSelected: wavve_selected,
-      );
-      setState(() {
-        circleMovies = fetchedMovies;
-      });
-    } catch (e) {
-      print("CircleSlider 데이터를 가져오는 데 실패했습니다: $e");
-    }
-  }
-
-  // BoxSlider 데이터를 가져오는 함수
-  Future<void> getBoxMoviesData() async {
-    try {
-      List<Movie> fetchedMovies = await get_movies_list_from_backend(
-        genre: selectedGenreForBox,
-        netflixSelected: netflix_selected,
-        tvingSelected: tving_selected,
-        coupangSelected: coupang_selected,
-        watchaSelected: watcha_selected,
-        wavveSelected: wavve_selected,
-      );
-      setState(() {
-        boxMovies = fetchedMovies;
-      });
-    } catch (e) {
-      print("BoxSlider 데이터를 가져오는 데 실패했습니다: $e");
-    }
-  }
-*/
-
-  // 공통 함수
   Future<void> getMoviesData({
-    required String genre, // 장르
-    required List<Movie> targetList, // 업데이트할 리스트
+    required String genre,
+    required List<Movie> targetList,
   }) async {
     try {
       List<Movie> fetchedMovies = await get_movies_list_from_backend(
@@ -169,44 +110,112 @@ class _HomeScreenState extends State<HomeScreen> {
         watchaSelected: watcha_selected,
         wavveSelected: wavve_selected,
       );
-      setState(() {
-        targetList.clear(); // 기존 데이터를 제거
-        targetList.addAll(fetchedMovies); // 새로운 데이터 추가
-      });
+      if (mounted) {
+        setState(() {
+          targetList.clear();
+          targetList.addAll(fetchedMovies);
+        });
+      }
     } catch (e) {
-      print("$genre 데이터를 가져오는 데 실패했습니다: $e");
+      if (mounted) {
+        print("$genre 데이터를 가져오는 데 실패했습니다: $e");
+      }
     }
   }
+
+  bool isLoading = true;
+
+  Future<void> updateMoviesData() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      List<Movie> fetchedHororMovies = await get_movies_list_from_backend(
+        genre: hororGenre,
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+
+      List<Movie> fetchedActionMovies = await get_movies_list_from_backend(
+        genre: actionGenre,
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+
+      List<Movie> fetchedRomanceMovies = await get_movies_list_from_backend(
+        genre: romanceGenre,
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+
+      List<Movie> fetchedFantasyMovies = await get_movies_list_from_backend(
+        genre: fantasyGenre,
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+
+      List<Movie> fetchedComedyMovies = await get_movies_list_from_backend(
+        genre: comedyGenre,
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+
+      setState(() {
+        hororMovies = fetchedHororMovies;
+        actionMovies = fetchedActionMovies;
+        romanceMovies = fetchedRomanceMovies;
+        fantasyMovies = fetchedFantasyMovies;
+        comedyMovies = fetchedComedyMovies;
+        isLoading = false;
+      });
+    } catch (e) {
+      print("데이터 업데이트 중 오류 발생: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+
+
 
   @override
   void initState() {
     super.initState();
-    getMoviesData(
-      genre: selectedGenreForCarousel,
-      targetList: carouselMovies,
-    );
-    getMoviesData(
-      genre: selectedGenreForCircle,
-      targetList: circleMovies,
-    );
-    getMoviesData(
-      genre: selectedGenreForBox,
-      targetList: boxMovies,
-    );
-    //getCarouselMoviesData();
-    //getCircleMoviesData();
-    //getBoxMoviesData();
+    updateMoviesData().then((_) {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return isLoading
+        ? Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color> (Colors.white),)) // 로딩 중 상태
+        : Padding(
       padding: const EdgeInsets.all(10.0),
       child: ListView(
         children: <Widget>[
-          //TopBar(),
           OTTbar(
-            // OTTbar에 상태값과 콜백 함수 전달
             netflixSelected: netflix_selected,
             tvingSelected: tving_selected,
             coupangSelected: coupang_selected,
@@ -226,32 +235,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 watcha_selected = watcha;
                 wavve_selected = wavve;
               });
-              //getCarouselMoviesData(); // 상태가 바뀌면 다시 쿼리 보내기
-              /*getMoviesData(
-                genre: selectedGenreForCarousel,
-                targetList: carouselMovies,
-              );
-              */
-              getMoviesData(
-                genre: selectedGenreForCircle,
-                targetList: circleMovies,
-              );
-              getMoviesData(
-                genre: selectedGenreForBox,
-                targetList: boxMovies,
-              );
+              updateMoviesData();
             },
           ),
-          // 각 위젯에 전달되는 데이터는 각기 다른 장르에 대한 영화 데이터입니다.
-          //CarouselImage(movies: carouselMovies),
-          CircleSlider(movies: circleMovies),
-          BoxSlider(movies: boxMovies),
+          BoxSlider(movies: hororMovies, sliderTitle: hororGenre),
+          BoxSlider(movies: romanceMovies, sliderTitle: romanceGenre),
+          BoxSlider(movies: actionMovies, sliderTitle: actionGenre),
+          BoxSlider(movies: fantasyMovies, sliderTitle: fantasyGenre),
+          BoxSlider(movies: comedyMovies, sliderTitle: comedyGenre),
         ],
       ),
     );
   }
 }
-
 class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
