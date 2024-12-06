@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:watchme/model/model_movie.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:watchme/widget/movie_details.dart';  // MovieDetails import
 
 class DetailScreen extends StatefulWidget {
   final Movie movie;
@@ -16,7 +18,6 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    //like = widget.movie.like;
   }
 
   @override
@@ -33,37 +34,30 @@ class _DetailScreenState extends State<DetailScreen> {
                     width: double.maxFinite,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(widget.movie.posterURL), // 웹 링크 이미지
+                        image: CachedNetworkImageProvider(widget.movie.posterURL),
                         fit: BoxFit.cover,
                       ),
                     ),
                     child: ClipRect(
                       child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                         child: Container(
                           alignment: Alignment.center,
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withOpacity(0.4),
                           child: Column(
                             children: <Widget>[
+                              // 영화 포스터
                               Container(
                                 padding: EdgeInsets.fromLTRB(0, 45, 0, 10),
                                 height: 300,
-                                child: Image.network(
-                                  widget.movie.posterURL, // 웹 링크 이미지
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.movie.posterURL,
                                   fit: BoxFit.cover,
+                                  placeholder: (context, url) => CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) => Icon(Icons.error),
                                 ),
                               ),
-                              Container(
-                                padding: EdgeInsets.all(7),
-                                child: Text(
-                                  widget.movie.description, // Plot 데이터 표시
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
+                              // 영화 제목
                               Container(
                                 padding: EdgeInsets.all(7),
                                 child: Text(
@@ -71,23 +65,27 @@ class _DetailScreenState extends State<DetailScreen> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 22,
+                                    color: Colors.white,
+                                    shadows: [
+                                      Shadow(
+                                        offset: Offset(1, 1),
+                                        blurRadius: 5,
+                                        color: Colors.black.withOpacity(0.6),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
+                              // 영화 설명
                               Container(
-                                padding: EdgeInsets.all(3),
-                                child: TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(
-                                    backgroundColor: Colors.red,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(Icons.play_arrow),
-                                      Text('재생'),
-                                    ],
+                                padding: EdgeInsets.all(7),
+                                child: Text(
+                                  widget.movie.description,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white70,
                                   ),
                                 ),
                               ),
@@ -97,99 +95,84 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ),
                   ),
+                  // AppBar 위치
                   Positioned(
                     child: AppBar(
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: Colors.black.withOpacity(0.6),
                       elevation: 0,
+                      title: Text(
+                        widget.movie.title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
-              // 버튼 영역
+              // 영화 세부 정보 부분을 MovieDetails로 대체
+              MovieDetails(movie: widget.movie),
+              // 버튼 영역 (예시로 좋아요, 평가, 공유 버튼들)
               Container(
                 color: Colors.black26,
+                padding: EdgeInsets.symmetric(vertical: 10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            //like = !like; // 좋아요 상태 변경
-                          });
-                        },
-                        child: Column(
-                          children: <Widget>[
-                            //like ? Icon(Icons.check) : Icon(Icons.add),
-                            Padding(
-                              padding: EdgeInsets.all(5),
-                            ),
-                            Text(
-                              '내가 찜한 콘텐츠',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.white60,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    _buildActionButton(
+                      icon: like ? Icons.check : Icons.add,
+                      label: '찜하기',
+                      onTap: () {
+                        setState(() {
+                          like = !like;
+                        });
+                      },
                     ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      child: Column(
-                        children: <Widget>[
-                          Icon(Icons.thumb_up),
-                          Padding(
-                            padding: EdgeInsets.all(5),
-                          ),
-                          Text(
-                            '평가',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.white60,
-                            ),
-                          ),
-                        ],
-                      ),
+                    _buildActionButton(
+                      icon: Icons.thumb_up,
+                      label: '평가',
+                      onTap: () {},
                     ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      child: Column(
-                        children: <Widget>[
-                          Icon(Icons.send),
-                          Padding(
-                            padding: EdgeInsets.all(5),
-                          ),
-                          Text(
-                            '공유',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.white60,
-                            ),
-                          ),
-                        ],
-                      ),
+                    _buildActionButton(
+                      icon: Icons.link,
+                      label: '공유',
+                      onTap: () {},
                     ),
                   ],
                 ),
               ),
-              makeMenuButton(),
             ],
           ),
         ),
       ),
     );
   }
-}
 
-Widget makeMenuButton() {
-  return Container(
-    padding: EdgeInsets.all(10),
-    child: Text(
-      '추가 메뉴 버튼',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
+  // 버튼을 좀 더 이쁘게 만들어주는 함수
+  Widget _buildActionButton({required IconData icon, required String label, required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: <Widget>[
+          CircleAvatar(
+            backgroundColor: Colors.white30,
+            radius: 25,
+            child: Icon(
+              icon,
+              color: Colors.white,
+            ),
+          ),
+          Padding(padding: EdgeInsets.all(5)),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.white60,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
