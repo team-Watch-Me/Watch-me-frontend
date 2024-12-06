@@ -86,19 +86,18 @@ class _HomeScreenState extends State<HomeScreen> {
   String hororGenre = '공포';
   String actionGenre = '액션';
   String romanceGenre = '로맨스';
+  String fantasyGenre = '판타지';
 
   // 각기 다른 장르에 대해 각각의 영화 데이터를 저장할 변수
   List<Movie> hororMovies = [];
   List<Movie> actionMovies = [];
   List<Movie> romanceMovies = [];
+  List<Movie> fantasyMovies = [];
 
 
-
-
-  // 공통 함수
   Future<void> getMoviesData({
-    required String genre, // 장르
-    required List<Movie> targetList, // 업데이트할 리스트
+    required String genre,
+    required List<Movie> targetList,
   }) async {
     try {
       List<Movie> fetchedMovies = await get_movies_list_from_backend(
@@ -109,12 +108,16 @@ class _HomeScreenState extends State<HomeScreen> {
         watchaSelected: watcha_selected,
         wavveSelected: wavve_selected,
       );
-      setState(() {
-        targetList.clear(); // 기존 데이터를 제거
-        targetList.addAll(fetchedMovies); // 새로운 데이터 추가
-      });
+      if (mounted) {
+        setState(() {
+          targetList.clear();
+          targetList.addAll(fetchedMovies);
+        });
+      }
     } catch (e) {
-      print("$genre 데이터를 가져오는 데 실패했습니다: $e");
+      if (mounted) {
+        print("$genre 데이터를 가져오는 데 실패했습니다: $e");
+      }
     }
   }
 
@@ -148,31 +151,51 @@ class _HomeScreenState extends State<HomeScreen> {
         wavveSelected: wavve_selected,
       );
 
+      List<Movie> fetchedFantasyMovies = await get_movies_list_from_backend(
+        genre: fantasyGenre,
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+
       setState(() {
         hororMovies = fetchedHororMovies;
         actionMovies = fetchedActionMovies;
         romanceMovies = fetchedRomanceMovies;
+        fantasyMovies = fetchedFantasyMovies;
       });
     } catch (e) {
       print("데이터 업데이트 중 오류 발생: $e");
     }
   }
 
+
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
-    updateMoviesData();
+    updateMoviesData().then((_) {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return isLoading
+        ? Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color> (Colors.white),)) // 로딩 중 상태
+        : Padding(
       padding: const EdgeInsets.all(10.0),
       child: ListView(
         children: <Widget>[
-          //TopBar(),
           OTTbar(
-            // OTTbar에 상태값과 콜백 함수 전달
             netflixSelected: netflix_selected,
             tvingSelected: tving_selected,
             coupangSelected: coupang_selected,
@@ -192,22 +215,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 watcha_selected = watcha;
                 wavve_selected = wavve;
               });
-              //getCarouselMoviesData(); // 상태가 바뀌면 다시 쿼리 보내기
               updateMoviesData();
             },
           ),
-          // 각 위젯에 전달되는 데이터는 각기 다른 장르에 대한 영화 데이터입니다.
-          //CarouselImage(movies: carouselMovies),
-          //ListSlider(movies: hororMovies),
-          CircleSlider(movies: hororMovies, sliderTitle: hororGenre),
-          CircleSlider(movies: romanceMovies, sliderTitle: romanceGenre),
+          BoxSlider(movies: hororMovies, sliderTitle: hororGenre),
+          BoxSlider(movies: romanceMovies, sliderTitle: romanceGenre),
           BoxSlider(movies: actionMovies, sliderTitle: actionGenre),
+          BoxSlider(movies: fantasyMovies, sliderTitle: fantasyGenre),
         ],
       ),
     );
   }
 }
-
 class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

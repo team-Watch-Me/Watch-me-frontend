@@ -185,7 +185,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             Container(
               color: Colors.transparent,
-              padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
+              padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
               child: Row(
                 children: <Widget>[
                   Expanded(

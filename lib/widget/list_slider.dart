@@ -11,7 +11,7 @@ class ListSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      //padding: EdgeInsets.all(10),
       child: Container(
         // 화면 꽉 차게 하도록 조정
         height: MediaQuery.of(context).size.height * 0.6, // 화면의 60% 크기
