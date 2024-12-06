@@ -33,7 +33,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     width: double.maxFinite,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(widget.movie.poster_url), // 웹 링크 이미지
+                        image: NetworkImage(widget.movie.posterURL), // 웹 링크 이미지
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -49,7 +49,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 padding: EdgeInsets.fromLTRB(0, 45, 0, 10),
                                 height: 300,
                                 child: Image.network(
-                                  widget.movie.poster_url, // 웹 링크 이미지
+                                  widget.movie.posterURL, // 웹 링크 이미지
                                   fit: BoxFit.cover,
                                 ),
                               ),

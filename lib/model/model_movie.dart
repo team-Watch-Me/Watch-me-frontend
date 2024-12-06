@@ -6,7 +6,7 @@ class Movie {
   final String year;
   final int runningTime;  // int로 변경
   final String description;
-  final String poster_url;
+  final String posterURL;
 
   Movie({
     required this.title,
@@ -16,7 +16,7 @@ class Movie {
     required this.country,
     required this.runningTime,  // int로 전달
     required this.year,
-    required this.poster_url,
+    required this.posterURL,
   });
 
 
@@ -43,8 +43,8 @@ class Movie {
         ageRating: json['age_rating'] ?? '연령 정보 없음',  // 기본값 설정
         country: json['country'] ?? '국가 정보 없음',  // 기본값 설정
         year: json['year'] ?? '발매일 정보 없음',  // 기본값 설정
-        runningTime: (json['running_time'] is int) ? json['running_time'] : 120,  // 기본값 설정 (더미 값: 120)
-        poster_url: json['poster_url'] ?? '포스터 없음'
+        runningTime: (json['running_time'] is int) ? json['running_time'] : 120,  // 기본값 설정 (더미 값: 120
+        posterURL: json['poster_url'] ?? '포스터 없음'
       );
     } catch (e) {
       print('Movie.fromJson 변환 오류: $e');
@@ -63,13 +63,13 @@ class Movie {
       country: map['country'] ?? '',
       year: map['year'] ?? '',
       runningTime: map['running_time'] ?? 0,
-      poster_url: '', // 포스터 URL이 없으므로 빈 문자열로 처리
+      posterURL: '', // 포스터 URL이 없으므로 빈 문자열로 처리
     );
   }
 
   @override
   String toString() {
-    return 'Movie(title: $title, poster_url: $poster_url, description: $description, genre: $genre, year: $year, runningTime: $runningTime)';
+    return 'Movie(title: $title, poster_url: $posterURL, description: $description, genre: $genre, year: $year, runningTime: $runningTime)';
   }
 
 

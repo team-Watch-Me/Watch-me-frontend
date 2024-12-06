@@ -49,7 +49,7 @@ List<Widget> makeBoxImages(BuildContext context, List<Movie> movies) {
             //child: Image('images/' + movies[i].poster_url),
             //image: NetworkImage(widget.movie.poster_url), // 웹 링크 이미지
             child: Image.network(
-              movies[i].poster_url,
+              movies[i].posterURL,
             ),
           ),
         ),
