@@ -10,6 +10,8 @@ import 'dart:convert';  // json 관련 처리를 위한 임포트
 
 // 일반적인 영화 데이터를 가져오는 함수 (장르와 OTT 선택 여부를 받음)
 import 'package:http/http.dart' as http;
+
+import '../widget/list_slider.dart';
 Future<List<Movie>> get_movies_list_from_backend({
   required String genre,
   required bool netflixSelected,
@@ -185,8 +187,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           // 각 위젯에 전달되는 데이터는 각기 다른 장르에 대한 영화 데이터입니다.
           //CarouselImage(movies: carouselMovies),
-          CircleSlider(movies: circleMovies),
-          BoxSlider(movies: boxMovies),
+          ListSlider(movies: circleMovies),
+          CircleSlider(movies: circleMovies, sliderTitle: 'king'),
+          BoxSlider(movies: boxMovies, sliderTitle: '장르'),
         ],
       ),
     );
