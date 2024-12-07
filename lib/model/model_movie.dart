@@ -2,6 +2,7 @@ import 'package:tuple/tuple.dart';
 
 class Movie {
   final String title;
+  final String movieId;
   final List<String> genre;
   final String ageRating;
   final List<String> country;
@@ -15,6 +16,7 @@ class Movie {
 
   Movie({
     required this.title,
+    required this.movieId,
     required this.description,
     required this.genre,
     required this.ageRating,
@@ -44,6 +46,7 @@ class Movie {
       print('running_time: ${json['running_time']}');
       print('like: ${json['like']}');
       print('ottProvider: ${json['ott_provider']}');
+      print('id: ${json['movie_id']}');
 
       return Movie(
         title: title.isNotEmpty ? title : '제목 없음',  // 기본값 설정
@@ -61,7 +64,7 @@ class Movie {
             [], // Tuple 변환
         actor: List<String>.from(json['actor'] ?? []), //
         staff: List<String>.from(json['staff'] ?? []), //
-
+        movieId: json['movie_id'] ?? 'id 없음',
       );
     } catch (e) {
       print('Movie.fromJson 변환 오류: $e');
@@ -88,12 +91,13 @@ class Movie {
           [],
       actor: List<String>.from(map['acort'] ?? []),
       staff: List<String>.from(map['staff'] ?? []),
+      movieId: map['id'] ?? '',
     );
   }
 
   @override
   String toString() {
-    return 'Movie(title: $title, poster_url: $posterURL, description: $description, genre: $genre, year: $year, runningTime: $runningTime)';
+    return 'Movie(title: $title, movie_id: $movieId, poster_url: $posterURL, description: $description, genre: $genre, year: $year, runningTime: $runningTime)';
   }
 
 
