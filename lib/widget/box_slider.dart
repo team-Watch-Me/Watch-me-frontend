@@ -18,7 +18,13 @@ class BoxSlider extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(sliderTitle),
+          Text(sliderTitle,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Comic Sans MS',
+            ),
+          ),
           Container(
               height: 120,
               child: ListView(
