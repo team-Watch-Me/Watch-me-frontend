@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:watchme/widget/ott_check.dart';
 import 'package:http/http.dart' as http;  // http 패키지 임포트
 import 'package:watchme/model/model_movie.dart';
@@ -75,6 +76,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _filter = TextEditingController(); // 검색 위젯을 컨트롤 하는 위젯
   FocusNode focusNode = FocusNode(); // 검색 위젯에 커서 있는지에 대한 상태
   String _searchText = ""; // 현재 검색어
+  String userId = "";
   bool netflix_selected = true;
   bool tving_selected = true;
   bool coupang_selected = true;

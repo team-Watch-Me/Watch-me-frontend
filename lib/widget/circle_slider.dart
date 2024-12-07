@@ -20,7 +20,7 @@ class CircleSlider extends StatelessWidget {
         children: <Widget>[
           Text(sliderTitle),
           Container(
-            height: 120,
+            height: 180,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: makeCircleImages(context, movies),
@@ -49,11 +49,18 @@ List<Widget> makeCircleImages(BuildContext context, List<Movie> movies) {
             padding: EdgeInsets.only(right: 10),
             child: Align(
                 alignment: Alignment.centerLeft,
-                child: CircleAvatar(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.network(
+                      movies[i].posterURL,
+                    width: 150,
+                    height: 210,
+                    fit: BoxFit.cover,
+                  )
                   //backgroundImage: AssetImage('images/' + movies[i].poster_url),
-                  backgroundImage: NetworkImage(movies[i].posterURL), // 웹 링크 이미지
-                  //backgroundImage: AssetImage('images/' + movies[i].poster_url),
-                  radius: 48,
+                  // backgroundImage: NetworkImage(movies[i].posterURL), // 웹 링크 이미지
+                  // backgroundImage: AssetImage('images/' + movies[i].poster_url),
+                  // radius: 48,
                 )))));
   }
   return results;

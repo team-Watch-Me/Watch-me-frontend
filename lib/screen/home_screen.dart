@@ -10,6 +10,70 @@ import 'dart:convert';  // json 관련 처리를 위한 임포트
 import 'package:http/http.dart' as http;
 
 import '../widget/list_slider.dart';
+
+Future<List<Movie>> get_recommended_movies_list_from_backend({
+  required String user_id,
+  required bool netflixSelected,
+  required bool tvingSelected,
+  required bool coupangSelected,
+  required bool watchaSelected,
+  required bool wavveSelected,
+}) async {
+  try {
+    final Map<String, dynamic> body = {
+      'user_id': user_id,
+      'netflix_selected': netflixSelected,
+      'tving_selected': tvingSelected,
+      'coupang_selected': coupangSelected,
+      'watcha_selected': watchaSelected,
+      'wavve_selected': wavveSelected,
+    };
+
+    final Uri apiUrl = Uri.parse('http://3.25.85.3:8000/main_page_personal_recommendation/'); // 기본 URL
+
+    final response = await http.post(
+      apiUrl,
+      headers: {
+        'Content-Type': 'application/json', // JSON 형식으로 보내기
+      },
+      body: json.encode(body), // 데이터를 JSON 형식으로 직렬화
+    );
+
+    print('POST 요청 URL: ${apiUrl.toString()}');
+    print('보낸 데이터: ${json.encode(body)}');
+
+    final decodedBody = utf8.decode(response.bodyBytes);
+    print('응답 본문 (디코딩 후): $decodedBody');
+    print('응답 헤더: ${response.headers}');
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = json.decode(decodedBody);
+      final List<dynamic> moviesList = jsonData['movies'];
+
+      print('영화 리스트: $moviesList');
+      User user = await UserApi.instance.me();
+      print('사용자ID: ${user.id}');
+      // JSON 데이터를 Movie 객체로 변환
+      moviesList.map((data) => Movie.fromJson(data['title'], data)).toList().forEach((movie) {
+        print('movie 객체 출력결과');
+        print(netflixSelected);
+        print(watchaSelected);
+        print(coupangSelected);
+        print(watchaSelected);
+        print(wavveSelected);
+        print(movie);  // Movie 객체를 출력
+
+      });
+      return moviesList.map((data) => Movie.fromJson(data['title'], data)).toList();
+    } else {
+      throw Exception('영화 데이터를 가져오는 데 실패했습니다: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('HTTP 요청 중 오류 발생: $e');
+    throw Exception('HTTP 요청 중 오류 발생');
+  }
+}
+
 Future<List<Movie>> get_movies_list_from_backend({
   required String genre,
   required bool netflixSelected,
@@ -85,45 +149,23 @@ class _HomeScreenState extends State<HomeScreen> {
   bool watcha_selected = true;
   bool wavve_selected = true;
 
-  String hororGenre = '공포';
-  String actionGenre = '액션';
-  String romanceGenre = '로맨스';
+  String hororGenre = '오싹오싹 호러';
+  String actionGenre = '액션쾌감!';
+  String romanceGenre = '설레는 사랑';
   String fantasyGenre = '판타지';
-  String comedyGenre = '코미디';
+  String comedyGenre = 'ㅋㅋㅋㅋ 코미디';
+
+  String userId = '';
 
   // 각기 다른 장르에 대해 각각의 영화 데이터를 저장할 변수
+
+  List<Movie> recommendedMovies = [];
   List<Movie> hororMovies = [];
   List<Movie> actionMovies = [];
   List<Movie> romanceMovies = [];
   List<Movie> fantasyMovies = [];
   List<Movie> comedyMovies = [];
 
-
-  Future<void> getMoviesData({
-    required String genre,
-    required List<Movie> targetList,
-  }) async {
-    try {
-      List<Movie> fetchedMovies = await get_movies_list_from_backend(
-        genre: genre,
-        netflixSelected: netflix_selected,
-        tvingSelected: tving_selected,
-        coupangSelected: coupang_selected,
-        watchaSelected: watcha_selected,
-        wavveSelected: wavve_selected,
-      );
-      if (mounted) {
-        setState(() {
-          targetList.clear();
-          targetList.addAll(fetchedMovies);
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        print("$genre 데이터를 가져오는 데 실패했습니다: $e");
-      }
-    }
-  }
 
   bool isLoading = true;
 
@@ -177,12 +219,25 @@ class _HomeScreenState extends State<HomeScreen> {
         wavveSelected: wavve_selected,
       );
 
+
+      User user = await UserApi.instance.me();
+      print('사용자ID: ${user.id}');
+      List<Movie> fetchedRecommendedMovies = await get_recommended_movies_list_from_backend(
+        user_id: "${user.id}",
+        netflixSelected: netflix_selected,
+        tvingSelected: tving_selected,
+        coupangSelected: coupang_selected,
+        watchaSelected: watcha_selected,
+        wavveSelected: wavve_selected,
+      );
+
       setState(() {
         hororMovies = fetchedHororMovies;
         actionMovies = fetchedActionMovies;
         romanceMovies = fetchedRomanceMovies;
         fantasyMovies = fetchedFantasyMovies;
         comedyMovies = fetchedComedyMovies;
+        recommendedMovies = fetchedRecommendedMovies;
         isLoading = false;
       });
     } catch (e) {
@@ -240,6 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
               updateMoviesData();
             },
           ),
+          CircleSlider (movies: recommendedMovies, sliderTitle: '당신만을 위한 추천 ㅎㅎ'),
           BoxSlider(movies: hororMovies, sliderTitle: hororGenre),
           BoxSlider(movies: romanceMovies, sliderTitle: romanceGenre),
           BoxSlider(movies: actionMovies, sliderTitle: actionGenre),
