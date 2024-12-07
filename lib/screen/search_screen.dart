@@ -24,7 +24,7 @@ Future<List<Movie>> get_search_list_from_backend({
       'wavve_selected': wavveSelected,
     };
 
-    final Uri apiUrl = Uri.parse('http://3.25.175.71:8000/search_page/'); // 기본 URL
+    final Uri apiUrl = Uri.parse('http://3.25.85.3:8000/search_page/'); // 기본 URL
 
     final response = await http.post(
       apiUrl,
