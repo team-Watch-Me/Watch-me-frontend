@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:watchme/model/model_movie.dart';
 import 'package:watchme/widget/circle_slider.dart';
 import 'package:watchme/widget/box_slider.dart';
@@ -27,7 +28,7 @@ Future<List<Movie>> get_movies_list_from_backend({
       'wavve_selected': wavveSelected,
     };
 
-    final Uri apiUrl = Uri.parse('http://3.25.85.3:8000/main_page/'); // 기본 URL
+    final Uri apiUrl = Uri.parse('http://3.25.85.3:8000/main_page_genre/'); // 기본 URL
 
     final response = await http.post(
       apiUrl,
@@ -49,7 +50,8 @@ Future<List<Movie>> get_movies_list_from_backend({
       final List<dynamic> moviesList = jsonData['movies'];
 
       print('영화 리스트: $moviesList');
-
+      User user = await UserApi.instance.me();
+      print('사용자ID: ${user.id}');
       // JSON 데이터를 Movie 객체로 변환
       moviesList.map((data) => Movie.fromJson(data['title'], data)).toList().forEach((movie) {
         print('movie 객체 출력결과');

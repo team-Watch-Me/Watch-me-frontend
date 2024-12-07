@@ -75,6 +75,8 @@ class MyApp extends StatelessWidget {
 
 
                            */
+                          User user = await UserApi.instance.me();
+                          print('사용자ID: ${user.id}');
                           print('카카오톡으로 로그인 성공');
                         } catch (error) {
                           print('카카오톡으로 로그인 실패 $error');
@@ -87,6 +89,8 @@ class MyApp extends StatelessWidget {
                           // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
                           try {
                             await UserApi.instance.loginWithKakaoAccount();
+                            User user = await UserApi.instance.me();
+                            print('사용자ID: ${user.id}');
                             print('카카오계정으로 로그인 성공');
                           } catch (error) {
                             print('카카오계정으로 로그인 실패 $error');
@@ -95,6 +99,8 @@ class MyApp extends StatelessWidget {
                       } else {
                         try {
                           await UserApi.instance.loginWithKakaoAccount();
+                          User user = await UserApi.instance.me();
+                          print('사용자ID: ${user.id}');
                           print('카카오계정으로 로그인 성공');
                         } catch (error) {
 
