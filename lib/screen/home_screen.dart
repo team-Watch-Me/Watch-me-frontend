@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;  // http 패키지 임포트
 import 'package:watchme/model/model_ott.dart'; // OTT 모델 임포트
 import 'dart:convert';  // json 관련 처리를 위한 임포트
 import 'package:http/http.dart' as http;
+import 'package:watchme/widget/ranking_slider.dart';
 
 import '../widget/list_slider.dart';
 
@@ -295,6 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
               updateMoviesData();
             },
           ),
+          RankingSliderVertical(movies: recommendedMovies, sliderTitle: '통합 순위!'),
           CircleSlider (movies: recommendedMovies, sliderTitle: '당신만을 위한 추천 ㅎㅎ'),
           BoxSlider(movies: hororMovies, sliderTitle: hororGenre),
           BoxSlider(movies: romanceMovies, sliderTitle: romanceGenre),
