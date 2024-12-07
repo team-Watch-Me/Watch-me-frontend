@@ -21,7 +21,8 @@ class CircleSlider extends StatelessWidget {
           Text(
               sliderTitle,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
                 fontFamily: 'Comic Sans MS',
               ),
           ),

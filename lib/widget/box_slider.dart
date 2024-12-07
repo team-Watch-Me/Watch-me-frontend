@@ -20,7 +20,8 @@ class BoxSlider extends StatelessWidget {
         children: <Widget>[
           Text(sliderTitle,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
               fontFamily: 'Comic Sans MS',
             ),
           ),
