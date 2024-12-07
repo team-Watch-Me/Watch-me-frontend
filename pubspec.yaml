@@ -12,6 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  url_launcher: ^6.0.20
+  cached_network_image: ^3.2.0
   kakao_flutter_sdk: ^1.9.6 # 전체 추가
   carousel_slider: ^5.0.0
   cupertino_icons: ^1.0.8
