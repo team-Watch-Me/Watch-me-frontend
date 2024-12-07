@@ -4,7 +4,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:flutter/services.dart';
 import 'package:watchme/screen/home_screen.dart';
 //80번째 줄 platform 관련 패키지
-import 'main.dart'; // MainPage가 정의된 파일을 import
+import '../main.dart'; // MainPage가 정의된 파일을 import
 
 void navigateToPage(BuildContext context, Widget page) {
   Navigator.push(
