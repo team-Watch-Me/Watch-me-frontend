@@ -149,11 +149,11 @@ class _HomeScreenState extends State<HomeScreen> {
   bool watcha_selected = true;
   bool wavve_selected = true;
 
-  String hororGenre = '오싹오싹 호러';
-  String actionGenre = '액션쾌감!';
-  String romanceGenre = '설레는 사랑';
+  String hororGenre = '공포';
+  String actionGenre = '액션';
+  String romanceGenre = '로맨스';
   String fantasyGenre = '판타지';
-  String comedyGenre = 'ㅋㅋㅋㅋ 코미디';
+  String comedyGenre = '코미디';
 
   String userId = '';
 
