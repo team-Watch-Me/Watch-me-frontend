@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watchme/screen/home_screen.dart';
 import 'package:watchme/screen/search_screen.dart';
+import 'package:watchme/screen/myinfo_screen.dart';
 import 'package:watchme/widget/bottom_bar.dart';
 
 class MainPage extends StatefulWidget {
@@ -31,16 +32,7 @@ class _MyAppState extends State<MainPage> {
             children: <Widget>[
               HomeScreen(),
               SearchScreen(),
-              Container(
-                  child: Center(
-                    child: Text('save'),
-                  )
-              ),
-              Container(
-                  child: Center(
-                    child: Text('more'),
-                  )
-              ),
+              MyInfoScreen(),
             ],
           ),
           bottomNavigationBar: Bottom(),

@@ -7,12 +7,14 @@ class OTTbar extends StatefulWidget {
   final bool coupangSelected;
   final bool watchaSelected;
   final bool wavveSelected;
+  final bool disneySelected;
   final Function({
   required bool netflix,
   required bool tving,
   required bool coupang,
   required bool watcha,
   required bool wavve,
+  required bool disney,
   }) onSelectionChanged; // 콜백 함수
 
   OTTbar({
@@ -21,6 +23,7 @@ class OTTbar extends StatefulWidget {
     required this.coupangSelected,
     required this.watchaSelected,
     required this.wavveSelected,
+    required this.disneySelected,
     required this.onSelectionChanged,
   });
 
@@ -71,6 +74,13 @@ class _OTTbarState extends State<OTTbar> {
         'onimage': 'assets/icons/wave_on.png',
         'offimage': 'assets/icons/wave_off.png',
       }),
+      OTT.fromMap({
+        'name': 'disney',
+        'checked': widget.disneySelected,
+        'subscribe': false,
+        'onimage': 'assets/icons/disney_on.png',
+        'offimage': 'assets/icons/disney_off.png',
+      }),
     ];
   }
 
@@ -87,6 +97,7 @@ class _OTTbarState extends State<OTTbar> {
       coupang: ottList[2].checked,
       watcha: ottList[3].checked,
       wavve: ottList[4].checked,
+      disney: ottList[5].checked,
     );
   }
 
@@ -97,6 +108,7 @@ class _OTTbarState extends State<OTTbar> {
     print('Coupang selected: ${widget.coupangSelected}');
     print('Watcha selected: ${widget.watchaSelected}');
     print('Wavve selected: ${widget.wavveSelected}');
+    print('Disney selected: ${widget.disneySelected}');
     return Container(
       child: Center(
         child: Row(
