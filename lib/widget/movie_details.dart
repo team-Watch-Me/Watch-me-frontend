@@ -25,6 +25,7 @@ class MovieDetails extends StatelessWidget {
       '쿠팡플레이',
       '웨이브',
       '티빙',
+      '디즈니+',
     ];
     return supportedProviders.contains(provider);
   }
@@ -42,6 +43,8 @@ class MovieDetails extends StatelessWidget {
         return 'assets/icons/watcha_on.png';
       case '웨이브':
         return 'assets/icons/wave_on.png';
+      case '디즈니+':
+        return 'assets/icons/disney_on.png';
       default:
         return 'assets/icons/default.png'; // 기본 아이콘
     }
@@ -85,13 +88,12 @@ class MovieDetails extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 12),
                     child: GestureDetector(
                       onTap: () => _launchURL(provider.item2),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white24,
-                        radius: 25,
+                      child: ClipOval(
                         child: Image.asset(
                           getProviderIcon(provider.item1),
-                          width: 30,
-                          height: 30,
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
