@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watchme/model/model_movie.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:tuple/tuple.dart'; // Tuple2 사용을 위한 패키지 import
+import 'package:tuple/tuple.dart';
 
 class MovieDetails extends StatelessWidget {
   final Movie movie;
@@ -55,13 +55,13 @@ class MovieDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           // 영화 설명 카드
-          _buildInfoCard('장르', movie.genre.join(', ')), // 리스트를 콤마로 구분된 문자열로 변환
+          _buildInfoCard('장르', movie.genre.join(', ')),
           _buildInfoCard('연령 등급', movie.ageRating),
-          _buildInfoCard('국가', movie.country.join(', ')), // 리스트를 콤마로 구분된 문자열로 변환
+          _buildInfoCard('국가', movie.country.join(', ')),
           _buildInfoCard('상영 시간', '${movie.runningTime}분'),
           _buildInfoCard('개봉 연도', movie.year),
-          _buildInfoCard('주요 배우', movie.actor.join(', ')), // 리스트를 콤마로 구분된 문자열로 변환
-          _buildInfoCard('감독', movie.staff.join(', ')), // 리스트를 콤마로 구분된 문자열로 변환
+          _buildInfoCard('주요 배우', movie.actor.join(', ')),
+          _buildInfoCard('감독', movie.staff.join(', ')),
 
           // "보러 가기" 섹션
           SizedBox(height: 20),
@@ -79,18 +79,17 @@ class MovieDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              // movie.ottProvider가 List<Tuple2> 형식이라면
               for (var provider in movie.ottProvider)
                 if (isSupportedProvider(provider.item1))
                   Padding(
                     padding: const EdgeInsets.only(right: 12),
                     child: GestureDetector(
-                      onTap: () => _launchURL(provider.item2), // provider.item2에 URL이 들어있다고 가정
+                      onTap: () => _launchURL(provider.item2),
                       child: CircleAvatar(
                         backgroundColor: Colors.white24,
                         radius: 25,
                         child: Image.asset(
-                          getProviderIcon(provider.item1), // 아이콘 경로를 함수로 가져옴
+                          getProviderIcon(provider.item1),
                           width: 30,
                           height: 30,
                         ),
@@ -123,6 +122,7 @@ class MovieDetails extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
+          // 타이틀에 여백 추가
           Text(
             title,
             style: TextStyle(
@@ -131,16 +131,27 @@ class MovieDetails extends StatelessWidget {
               color: Colors.white70,
             ),
           ),
-          Text(
-            content,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Colors.white,
+          // 텍스트가 길어지면 적당히 잘리거나 "..."으로 표시
+          Flexible(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8), // 타이틀과 내용 사이에 간격을 추가
+              child: Text(
+                content,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
+                overflow: TextOverflow.ellipsis, // 너무 길면 "..."으로 생략
+                maxLines: 1, // 두 줄까지만 표시
+              ),
             ),
           ),
         ],
       ),
     );
   }
+
+
 }
