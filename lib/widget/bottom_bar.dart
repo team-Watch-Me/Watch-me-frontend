@@ -34,21 +34,11 @@ class Bottom extends StatelessWidget {
                   ),
                   Tab(
                     icon: Icon(
-                      Icons.save_alt,
+                      Icons.account_circle,
                       size: 18,
                     ),
                     child: Text(
-                      '저장한 콘텐츠 목록',
-                      style: TextStyle(fontSize: 9),
-                    ),
-                  ),
-                  Tab(
-                    icon: Icon(
-                      Icons.list,
-                      size: 18,
-                    ),
-                    child: Text(
-                      '더보기',
+                      '정보',
                       style: TextStyle(fontSize: 9),
                     ),
                   ),
