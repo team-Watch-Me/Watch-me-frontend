@@ -17,6 +17,7 @@ Future<List<Movie>> get_ranking_movies_list_from_backend({
   required bool coupangSelected,
   required bool watchaSelected,
   required bool wavveSelected,
+  required bool disneySelected,
 }) async {
   try {
     final Map<String, dynamic> body = {
@@ -25,6 +26,7 @@ Future<List<Movie>> get_ranking_movies_list_from_backend({
       'coupang_selected': coupangSelected,
       'watcha_selected': watchaSelected,
       'wavve_selected': wavveSelected,
+      'disney_selected': disneySelected,
     };
 
     final Uri apiUrl = Uri.parse('http://3.25.85.3:8000/main_page_integrated/'); // 기본 URL
@@ -59,6 +61,7 @@ Future<List<Movie>> get_ranking_movies_list_from_backend({
         print(coupangSelected);
         print(watchaSelected);
         print(wavveSelected);
+        print(disneySelected);
         print(movie);  // Movie 객체를 출력
 
       });
@@ -79,6 +82,7 @@ Future<List<Movie>> get_recommended_movies_list_from_backend({
   required bool coupangSelected,
   required bool watchaSelected,
   required bool wavveSelected,
+  required bool disneySelected,
 }) async {
   try {
     final Map<String, dynamic> body = {
@@ -88,6 +92,7 @@ Future<List<Movie>> get_recommended_movies_list_from_backend({
       'coupang_selected': coupangSelected,
       'watcha_selected': watchaSelected,
       'wavve_selected': wavveSelected,
+      'disney_selected': disneySelected,
     };
 
     final Uri apiUrl = Uri.parse('http://3.25.85.3:8000/main_page_personal_recommendation/'); // 기본 URL
@@ -122,6 +127,7 @@ Future<List<Movie>> get_recommended_movies_list_from_backend({
         print(coupangSelected);
         print(watchaSelected);
         print(wavveSelected);
+        print(disneySelected);
         print(movie);  // Movie 객체를 출력
 
       });
@@ -142,6 +148,7 @@ Future<List<Movie>> get_movies_list_from_backend({
   required bool coupangSelected,
   required bool watchaSelected,
   required bool wavveSelected,
+  required bool disneySelected,
 }) async {
   try {
     final Map<String, dynamic> body = {
@@ -151,6 +158,7 @@ Future<List<Movie>> get_movies_list_from_backend({
       'coupang_selected': coupangSelected,
       'watcha_selected': watchaSelected,
       'wavve_selected': wavveSelected,
+      'disney_selected': disneySelected,
     };
 
     final Uri apiUrl = Uri.parse('http://3.25.85.3:8000/main_page_genre/'); // 기본 URL
@@ -185,6 +193,7 @@ Future<List<Movie>> get_movies_list_from_backend({
         print(coupangSelected);
         print(watchaSelected);
         print(wavveSelected);
+        print(disneySelected);
         print(movie);  // Movie 객체를 출력
 
       });
@@ -209,6 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool coupang_selected = true;
   bool watcha_selected = true;
   bool wavve_selected = true;
+  bool disney_selected = true;
 
   String hororGenre = '공포';
   String actionGenre = '액션';
@@ -243,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
         coupangSelected: coupang_selected,
         watchaSelected: watcha_selected,
         wavveSelected: wavve_selected,
+        disneySelected: disney_selected,
       );
 
       List<Movie> fetchedActionMovies = await get_movies_list_from_backend(
@@ -252,6 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
         coupangSelected: coupang_selected,
         watchaSelected: watcha_selected,
         wavveSelected: wavve_selected,
+        disneySelected: disney_selected,
       );
 
       List<Movie> fetchedRomanceMovies = await get_movies_list_from_backend(
@@ -261,6 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
         coupangSelected: coupang_selected,
         watchaSelected: watcha_selected,
         wavveSelected: wavve_selected,
+        disneySelected: disney_selected,
       );
 
       List<Movie> fetchedFantasyMovies = await get_movies_list_from_backend(
@@ -270,6 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
         coupangSelected: coupang_selected,
         watchaSelected: watcha_selected,
         wavveSelected: wavve_selected,
+        disneySelected: disney_selected,
       );
 
       List<Movie> fetchedComedyMovies = await get_movies_list_from_backend(
@@ -279,6 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
         coupangSelected: coupang_selected,
         watchaSelected: watcha_selected,
         wavveSelected: wavve_selected,
+        disneySelected: disney_selected,
       );
 
 
@@ -291,6 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
         coupangSelected: coupang_selected,
         watchaSelected: watcha_selected,
         wavveSelected: wavve_selected,
+        disneySelected: disney_selected,
       );
 
       List<Movie> fetchedRankingMovies = await get_ranking_movies_list_from_backend(
@@ -299,6 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
         coupangSelected: coupang_selected,
         watchaSelected: watcha_selected,
         wavveSelected: wavve_selected,
+        disneySelected: disney_selected,
       );
 
       setState(() {
@@ -349,12 +366,14 @@ class _HomeScreenState extends State<HomeScreen> {
             coupangSelected: coupang_selected,
             watchaSelected: watcha_selected,
             wavveSelected: wavve_selected,
+            disneySelected: disney_selected,
             onSelectionChanged: ({
               required bool netflix,
               required bool tving,
               required bool coupang,
               required bool watcha,
               required bool wavve,
+              required bool disney,
             }) {
               setState(() {
                 netflix_selected = netflix;
@@ -362,12 +381,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 coupang_selected = coupang;
                 watcha_selected = watcha;
                 wavve_selected = wavve;
+                disney_selected = disney;
               });
               updateMoviesData();
             },
           ),
           RankingSliderVertical(movies: rankingMovies, sliderTitle: '통합 순위!'),
-          CircleSlider (movies: recommendedMovies, sliderTitle: '당신만을 위한 추천 ㅎㅎ'),
+          CircleSlider (movies: recommendedMovies, sliderTitle: '당신만을 위한 추천!'),
           BoxSlider(movies: hororMovies, sliderTitle: hororGenre),
           BoxSlider(movies: romanceMovies, sliderTitle: romanceGenre),
           BoxSlider(movies: actionMovies, sliderTitle: actionGenre),

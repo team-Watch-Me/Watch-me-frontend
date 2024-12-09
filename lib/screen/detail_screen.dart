@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:watchme/model/model_movie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:watchme/widget/movie_details.dart';  // MovieDetails import
-
+import 'package:watchme/widget/rating.dart';  // RatingDialog 관련 함수 import
+import 'package:watchme/widget/submit_rating.dart';  // submitRating 함수 import
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 class DetailScreen extends StatefulWidget {
   final Movie movie;
 
@@ -132,7 +134,24 @@ class _DetailScreenState extends State<DetailScreen> {
                     _buildActionButton(
                       icon: Icons.thumb_up,
                       label: '평가',
-                      onTap: () {},
+                      onTap: () async{
+                        User user = await UserApi.instance.me();
+                        print('사용자ID: ${user.id}');
+                        // 평가 버튼 클릭 시 showRatingDialog 호출
+                        showRatingDialog(
+                          context,
+                              (rating) {
+                            // 평가 완료 후 처리 로직 (예: 서버에 저장)
+                            print('Rating: $rating');
+                            // 서버에 평가를 보내는 함수 호출
+                            submitRating(
+                              userId: user.id.toString(), // 예시로 userId를 'user123'로 설정 (실제값으로 변경)
+                              movieId: widget.movie.movieId, // movieId는 해당 영화의 ID
+                              rating: rating,
+                            );
+                          },
+                        );
+                      },
                     ),
                     _buildActionButton(
                       icon: Icons.link,
