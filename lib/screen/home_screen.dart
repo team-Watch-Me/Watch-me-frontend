@@ -39,30 +39,30 @@ Future<List<Movie>> get_ranking_movies_list_from_backend({
       body: json.encode(body), // 데이터를 JSON 형식으로 직렬화
     );
 
-    print('POST 요청 URL: ${apiUrl.toString()}');
-    print('보낸 데이터: ${json.encode(body)}');
+    // print('POST 요청 URL: ${apiUrl.toString()}');
+    // print('보낸 데이터: ${json.encode(body)}');
 
     final decodedBody = utf8.decode(response.bodyBytes);
-    print('응답 본문 (디코딩 후): $decodedBody');
-    print('응답 헤더: ${response.headers}');
+    // print('응답 본문 (디코딩 후): $decodedBody');
+    // print('응답 헤더: ${response.headers}');
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = json.decode(decodedBody);
       final List<dynamic> moviesList = jsonData['movies'];
 
-      print('영화 리스트: $moviesList');
+      // print('영화 리스트: $moviesList');
       User user = await UserApi.instance.me();
-      print('사용자ID: ${user.id}');
+      // print('사용자ID: ${user.id}');
       // JSON 데이터를 Movie 객체로 변환
       moviesList.map((data) => Movie.fromJson(data['title'], data)).toList().forEach((movie) {
-        print('movie 객체 출력결과');
-        print(netflixSelected);
-        print(watchaSelected);
-        print(coupangSelected);
-        print(watchaSelected);
-        print(wavveSelected);
-        print(disneySelected);
-        print(movie);  // Movie 객체를 출력
+        // print('movie 객체 출력결과');
+        // print(netflixSelected);
+        // print(watchaSelected);
+        // print(coupangSelected);
+        // print(watchaSelected);
+        // print(wavveSelected);
+        // print(disneySelected);
+        // print(movie);  // Movie 객체를 출력
 
       });
       return moviesList.map((data) => Movie.fromJson(data['title'], data)).toList();
@@ -70,7 +70,7 @@ Future<List<Movie>> get_ranking_movies_list_from_backend({
       throw Exception('영화 데이터를 가져오는 데 실패했습니다: ${response.statusCode}');
     }
   } catch (e) {
-    print('HTTP 요청 중 오류 발생: $e');
+    // print('HTTP 요청 중 오류 발생: $e');
     throw Exception('HTTP 요청 중 오류 발생');
   }
 }
@@ -105,30 +105,30 @@ Future<List<Movie>> get_recommended_movies_list_from_backend({
       body: json.encode(body), // 데이터를 JSON 형식으로 직렬화
     );
 
-    print('POST 요청 URL: ${apiUrl.toString()}');
-    print('보낸 데이터: ${json.encode(body)}');
+    // print('POST 요청 URL: ${apiUrl.toString()}');
+    // print('보낸 데이터: ${json.encode(body)}');
 
     final decodedBody = utf8.decode(response.bodyBytes);
-    print('응답 본문 (디코딩 후): $decodedBody');
-    print('응답 헤더: ${response.headers}');
+    // print('응답 본문 (디코딩 후): $decodedBody');
+    // print('응답 헤더: ${response.headers}');
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = json.decode(decodedBody);
       final List<dynamic> moviesList = jsonData['movies'];
 
-      print('영화 리스트: $moviesList');
+      // print('영화 리스트: $moviesList');
       User user = await UserApi.instance.me();
-      print('사용자ID: ${user.id}');
+      // print('사용자ID: ${user.id}');
       // JSON 데이터를 Movie 객체로 변환
       moviesList.map((data) => Movie.fromJson(data['title'], data)).toList().forEach((movie) {
-        print('movie 객체 출력결과');
-        print(netflixSelected);
-        print(watchaSelected);
-        print(coupangSelected);
-        print(watchaSelected);
-        print(wavveSelected);
-        print(disneySelected);
-        print(movie);  // Movie 객체를 출력
+        // print('movie 객체 출력결과');
+        // print(netflixSelected);
+        // print(watchaSelected);
+        // print(coupangSelected);
+        // print(watchaSelected);
+        // print(wavveSelected);
+        // print(disneySelected);
+        // print(movie);  // Movie 객체를 출력
 
       });
       return moviesList.map((data) => Movie.fromJson(data['title'], data)).toList();
@@ -136,7 +136,7 @@ Future<List<Movie>> get_recommended_movies_list_from_backend({
       throw Exception('영화 데이터를 가져오는 데 실패했습니다: ${response.statusCode}');
     }
   } catch (e) {
-    print('HTTP 요청 중 오류 발생: $e');
+    // print('HTTP 요청 중 오류 발생: $e');
     throw Exception('HTTP 요청 중 오류 발생');
   }
 }
@@ -171,30 +171,30 @@ Future<List<Movie>> get_movies_list_from_backend({
       body: json.encode(body), // 데이터를 JSON 형식으로 직렬화
     );
 
-    print('POST 요청 URL: ${apiUrl.toString()}');
-    print('보낸 데이터: ${json.encode(body)}');
-
+    // print('POST 요청 URL: ${apiUrl.toString()}');
+    // print('보낸 데이터: ${json.encode(body)}');
+    //
     final decodedBody = utf8.decode(response.bodyBytes);
-    print('응답 본문 (디코딩 후): $decodedBody');
-    print('응답 헤더: ${response.headers}');
+    // print('응답 본문 (디코딩 후): $decodedBody');
+    // print('응답 헤더: ${response.headers}');
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = json.decode(decodedBody);
       final List<dynamic> moviesList = jsonData['movies'];
 
-      print('영화 리스트: $moviesList');
+      // print('영화 리스트: $moviesList');
       User user = await UserApi.instance.me();
-      print('사용자ID: ${user.id}');
+      // print('사용자ID: ${user.id}');
       // JSON 데이터를 Movie 객체로 변환
       moviesList.map((data) => Movie.fromJson(data['title'], data)).toList().forEach((movie) {
-        print('movie 객체 출력결과');
-        print(netflixSelected);
-        print(watchaSelected);
-        print(coupangSelected);
-        print(watchaSelected);
-        print(wavveSelected);
-        print(disneySelected);
-        print(movie);  // Movie 객체를 출력
+        // print('movie 객체 출력결과');
+        // print(netflixSelected);
+        // print(watchaSelected);
+        // print(coupangSelected);
+        // print(watchaSelected);
+        // print(wavveSelected);
+        // print(disneySelected);
+        // print(movie);  // Movie 객체를 출력
 
       });
       return moviesList.map((data) => Movie.fromJson(data['title'], data)).toList();
@@ -202,7 +202,7 @@ Future<List<Movie>> get_movies_list_from_backend({
       throw Exception('영화 데이터를 가져오는 데 실패했습니다: ${response.statusCode}');
     }
   } catch (e) {
-    print('HTTP 요청 중 오류 발생: $e');
+    // print('HTTP 요청 중 오류 발생: $e');
     throw Exception('HTTP 요청 중 오류 발생');
   }
 }
@@ -298,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
       User user = await UserApi.instance.me();
-      print('사용자ID: ${user.id}');
+      // print('사용자ID: ${user.id}');
       List<Movie> fetchedRecommendedMovies = await get_recommended_movies_list_from_backend(
         user_id: "${user.id}",
         netflixSelected: netflix_selected,
@@ -329,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
         isLoading = false;
       });
     } catch (e) {
-      print("데이터 업데이트 중 오류 발생: $e");
+      // print("데이터 업데이트 중 오류 발생: $e");
       setState(() {
         isLoading = false;
       });

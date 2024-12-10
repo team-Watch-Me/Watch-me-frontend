@@ -136,7 +136,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       label: '평가',
                       onTap: () async{
                         User user = await UserApi.instance.me();
-                        print('사용자ID: ${user.id}');
+                        // print('사용자ID: ${user.id}');
                         // 평가 버튼 클릭 시 showRatingDialog 호출
                         showRatingDialog(
                           context,
