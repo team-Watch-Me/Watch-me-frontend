@@ -37,16 +37,16 @@ class Movie {
   factory Movie.fromJson(String title, Map<String, dynamic> json) {
     try {
       // 디버깅용 출력
-      print('제목: $title');
-      print('description: ${json['description']}');
-      print('genre: ${json['genre']}');
-      print('age_rating: ${json['age_rating']}');
-      print('country: ${json['country']}');
-      print('release_date: ${json['release_date']}');
-      print('running_time: ${json['running_time']}');
-      print('like: ${json['like']}');
-      print('ottProvider: ${json['ott_provider']}');
-      print('id: ${json['movie_id']}');
+      // print('제목: $title');
+      // print('description: ${json['description']}');
+      // print('genre: ${json['genre']}');
+      // print('age_rating: ${json['age_rating']}');
+      // print('country: ${json['country']}');
+      // print('release_date: ${json['release_date']}');
+      // print('running_time: ${json['running_time']}');
+      // print('like: ${json['like']}');
+      // print('ottProvider: ${json['ott_provider']}');
+      // print('id: ${json['movie_id']}');
 
       return Movie(
         title: title.isNotEmpty ? title : '제목 없음',  // 기본값 설정
@@ -67,8 +67,8 @@ class Movie {
         movieId: json['movie_id'] ?? 'id 없음',
       );
     } catch (e) {
-      print('Movie.fromJson 변환 오류: $e');
-      print('문제 데이터: $json');
+      // print('Movie.fromJson 변환 오류: $e');
+      // print('문제 데이터: $json');
       rethrow;
     }
   }

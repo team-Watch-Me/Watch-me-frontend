@@ -57,28 +57,16 @@ class MovieDetails extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          // 영화 설명 카드
-          _buildInfoCard('장르', movie.genre.join(', ')),
-          _buildInfoCard('연령 등급', movie.ageRating),
-          _buildInfoCard('국가', movie.country.join(', ')),
-          _buildInfoCard('상영 시간', '${movie.runningTime}분'),
-          _buildInfoCard('개봉 연도', movie.year),
-          _buildInfoCard('주요 배우', movie.actor.join(', ')),
-          _buildInfoCard('감독', movie.staff.join(', ')),
-
-          // "보러 가기" 섹션
-          SizedBox(height: 20),
+          SizedBox(height: 5),
           Text(
-            '보러 가기:',
+            '보러 가기',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.white70,
             ),
           ),
-          SizedBox(height: 10),
-
-          // OTT 제공자 링크 아이콘들
+          SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -100,6 +88,22 @@ class MovieDetails extends StatelessWidget {
                   ),
             ],
           ),
+          SizedBox(height: 15),
+          // 영화 설명 카드
+          _buildInfoCard('장르', movie.genre.join(', ')),
+          _buildInfoCard('연령 등급', movie.ageRating),
+          _buildInfoCard('국가', movie.country.join(', ')),
+          _buildInfoCard('상영 시간', '${movie.runningTime}분'),
+          _buildInfoCard('개봉 연도', movie.year),
+          _buildInfoCard('주요 배우', movie.actor.join(', ')),
+          _buildInfoCard('감독', movie.staff.join(', ')),
+
+          // "보러 가기" 섹션
+
+
+
+          // OTT 제공자 링크 아이콘들
+
         ],
       ),
     );

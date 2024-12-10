@@ -37,28 +37,28 @@ Future<List<Movie>> get_search_list_from_backend({
       body: json.encode(body), // 데이터를 JSON 형식으로 직렬화
     );
 
-    print('POST 요청 URL: ${apiUrl.toString()}');  // 요청 URL 출력
-    print('보낸 데이터: ${json.encode(body)}'); // 보낸 데이터 출력
+    // print('POST 요청 URL: ${apiUrl.toString()}');  // 요청 URL 출력
+    // print('보낸 데이터: ${json.encode(body)}'); // 보낸 데이터 출력
 
     final decodedBody = utf8.decode(response.bodyBytes); // UTF-8 강제 디코딩
-    print('응답 본문 (디코딩 후): $decodedBody');  // 디코딩된 응답 출력
-    print('응답 헤더: ${response.headers}');
+    // print('응답 본문 (디코딩 후): $decodedBody');  // 디코딩된 응답 출력
+    // print('응답 헤더: ${response.headers}');
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = json.decode(decodedBody);
       final List<dynamic> moviesList = jsonData['movies'];
 
-      print('영화 리스트: $moviesList');
+      // print('영화 리스트: $moviesList');
 
       // JSON 데이터를 Movie 객체로 변환
       moviesList.map((data) => Movie.fromJson(data['title'], data)).toList().forEach((movie) {
-        print('movie 객체 출력결과');
-        print(netflixSelected);
-        print(watchaSelected);
-        print(coupangSelected);
-        print(watchaSelected);
-        print(wavveSelected);
-        print(disneySelected);
-        print(movie);  // Movie 객체를 출력
+        // print('movie 객체 출력결과');
+        // print(netflixSelected);
+        // print(watchaSelected);
+        // print(coupangSelected);
+        // print(watchaSelected);
+        // print(wavveSelected);
+        // print(disneySelected);
+        // print(movie);  // Movie 객체를 출력
 
       });
       return moviesList.map((data) => Movie.fromJson(data['title'], data)).toList();
@@ -66,7 +66,7 @@ Future<List<Movie>> get_search_list_from_backend({
       throw Exception('영화 데이터를 가져오는 데 실패했습니다: ${response.statusCode}');
     }
   } catch (e) {
-    print('HTTP 요청 중 오류 발생: $e');
+    // print('HTTP 요청 중 오류 발생: $e');
     throw Exception('HTTP 요청 중 오류 발생');
   }
 }
@@ -118,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
         targetList.addAll(fetchedMovies); // 새로운 데이터 추가
       });
     } catch (e) {
-      print("$searchString 데이터를 가져오는 데 실패했습니다: $e");
+      // print("$searchString 데이터를 가져오는 데 실패했습니다: $e");
     }
   }
 
@@ -141,7 +141,7 @@ class _SearchScreenState extends State<SearchScreen> {
     }
     else {
       // focus 잃었을 때, 쿼리호출
-      print("test\n");
+      // print("test\n");
       getMoviesData(searchString: _searchText, targetList: searchedMovies);
     }
   }
